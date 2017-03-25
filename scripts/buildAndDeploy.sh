@@ -4,9 +4,9 @@ timestamp() {
   date +"%T"
 }
 
-git checkout build
 webpack -p
 ./scripts/build.sh
+git checkout build
 git add -f build
 git commit -am "Build$(date +%s)"
 git filter-branch -f --prune-empty --subdirectory-filter build
