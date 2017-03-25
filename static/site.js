@@ -81,7 +81,7 @@
 
 __webpack_require__(0);
 
-console.log('hey');
+console.log('hey there');
 
 /***/ })
 /******/ ]);
