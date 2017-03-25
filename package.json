@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "./scripts/buildAndDeploy"
+    "deploy": "./scripts/buildAndDeploy.sh"
   },
   "repository": {
     "type": "git",
