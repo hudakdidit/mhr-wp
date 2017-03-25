@@ -4,9 +4,7 @@ timestamp() {
   date +"%T"
 }
 
-git branch -d build-deploy
 git checkout -b build-deploy
-
 webpack -p
 ./scripts/build.sh
 git commit -am "Build__$(date +%s)"
