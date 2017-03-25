@@ -9,6 +9,7 @@ git checkout -b build-deploy
 
 webpack -p
 ./scripts/build.sh
+git commit -am "Build__$(date +%s)"
 git checkout build
 git add -f build
 git commit -am "Build__$(date +%s)"
