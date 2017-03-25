@@ -1,3 +1,3 @@
 require('./site.css');
 
-console.log('hey');
+console.log('hey there');

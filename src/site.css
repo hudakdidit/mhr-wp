@@ -1,3 +1,5 @@
+$color1 = bold;
+
 body {
-    content: 'shazam!';
+    background: $color1;
 }
