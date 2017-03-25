@@ -1,5 +1,6 @@
+rm -rf build
 mkdir build
-find . -name \*.php -exec cp {} build \;
-find . -name \*.css -exec cp {} build \;
-find . -name **\*.twig -exec cp {} build \;
-cp static build;
+cp *.php build;
+cp style.css build/style.css;
+cp -R templates build;
+cp -R static build;

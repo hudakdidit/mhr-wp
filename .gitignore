@@ -2,3 +2,4 @@ vendor
 wp-content
 static/*.css
 static/*.js
+build
