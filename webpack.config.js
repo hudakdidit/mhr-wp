@@ -1,5 +1,6 @@
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+const package = require('./package.json');
 
 module.exports = {
     entry: "./src/site.js",
@@ -34,7 +35,7 @@ module.exports = {
     plugins: [
         new ExtractTextPlugin('./static/site.css'),
         new BrowserSyncPlugin({
-            proxy: "hp.dev",
+            proxy: package.localUrl,
             files: ['./static', './templates'],
             open: false
         })
