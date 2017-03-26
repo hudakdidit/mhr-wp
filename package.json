@@ -1,6 +1,6 @@
 {
-  "name": "hpandco",
-  "localUrl": "hp.dev",
+  "name": "wordpress-start-theme",
+  "localUrl": "wp.dev",
   "version": "1.0.0",
   "description": "The \"_s\" for Timber: a dead-simple theme that you can build from. The primary purpose of this theme is to provide a file structure rather than a framework for markup or styles. Configure your Sass, scripts, and task runners however you would like!",
   "main": "index.js",
@@ -8,6 +8,7 @@
     "test": "tests"
   },
   "scripts": {
+    "start": "webpack -w",
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "./scripts/buildAndDeploy.sh"
   },
@@ -27,6 +28,7 @@
     "browser-sync-webpack-plugin": "^1.1.4",
     "css-loader": "^0.27.3",
     "extract-text-webpack-plugin": "^2.1.0",
+    "pjax": "^0.2.4",
     "postcss-loader": "^1.3.3",
     "postcss-smart-import": "^0.6.10",
     "precss": "^1.4.0",
