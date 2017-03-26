@@ -8,7 +8,7 @@ git checkout -b build-prep
 webpack -p
 ./scripts/build.sh
 git commit -am "Build__$(date +%s)"
-git checkout build
+git checkout -b build
 git branch -D build-prep
 git add -f build
 git commit -am "Build__$(date +%s)"
