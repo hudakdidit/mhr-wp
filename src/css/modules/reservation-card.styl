@@ -1,0 +1,93 @@
+.reservations-page
+
+  body
+    background-image none
+
+  .content-wrapper
+    padding-left 0
+    padding-right 0
+
+.reservation-card__container
+  background-size cover
+  background-position center
+  background-repeat no-repeat
+  padding 50px 20px
+
+  +above(desktop)
+    padding 100px 20px
+
+  .no-touch &
+    background-attachment fixed
+
+  +above(tablet)
+    padding 100px 20px
+
+.reservation-card__container--tilth
+  padding-top 300px
+
+.reservation-card .location .logo--agrodolce img
+  width 200px
+  height auto
+
+.reservation-card
+  background rgba(white, .8)
+  padding 40px 20px
+  border-radius 4px
+
+  +above(desktop)
+    display flex
+    justify-content space-between
+    padding 40px
+
+    .reservation-link,
+    .telephone-link
+      transform translateX(-20px)
+
+  h2
+    margin 20px 0
+
+  h3, h4
+    margin-bottom 10px
+
+  a
+    font-weight 700
+    color $tilth
+
+  .location
+    h2, h3
+      font-weight 400
+
+    img
+      max-width 100%
+      height auto
+      +above(tablet)
+        height 100px
+
+.reservation-card__column
+  +above(desktop)
+    flex 1 1 (100 / 3)%
+
+$reservation-red = #900
+a.reservation-link
+a.telephone-link
+  display block
+  margin 30px 0
+  background $reservation-red
+  padding-right 20px
+  color white
+  border-radius 4px
+  text-decoration none
+  max-width 280px
+  transition ease-out-quart 250ms background
+
+  &:hover
+    background darken($reservation-red, 10%)
+
+  .fa
+    display inline-block
+    padding 20px
+
+a.telephone-link
+  background $primary
+  &:hover
+    background darken($primary, 10%)

@@ -1,0 +1,93 @@
+ease-out-quart = cubic-bezier(0.165, 0.84, 0.44, 1)
+
+$dark = #5B4438
+$primary = #7B8E35
+$secondary = #f2efef
+$tilth = #4F5823
+
+// Mixins
+tablet = 700px
+nav = 1120px
+desktop = 1250px
+above($width)
+  @media (min-width: $width)
+    {block}
+
+retina()
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)
+    {block}
+
+link-style()
+  & span
+    display inline-block
+    position relative
+    padding 4px 0
+    &::after
+      content ""
+      position absolute
+      bottom 0
+      left 0
+      height 1px
+      width 0%
+      transition width 130ms ease-out-quart
+      background $dark
+
+  .no-touch &:hover span::after
+    width 100%
+
+
+// Modules
+
+@import './modules/*'
+
+
+// restaurants
+
+@import './restaurants/*'
+
+*
+  box-sizing border-box
+  margin 0
+  padding 0
+  line-height 1
+
+html.home,
+body.home,
+#content
+  height 100%
+
+body
+  font-family 'Quicksand', sans-serif
+  box-sizing border-box
+  background $secondary
+  background-repeat no-repeat
+  background-size cover
+  background-position center
+
+
+  &.no-touch
+    background-attachment fixed
+
+  *
+    box-sizing inherit
+
+a
+  color $tilth
+
+a.link
+  text-decoration underline
+
+.hero
+  height 80%
+
+.min-toggle
+  font-size 40px
+  opacity .25
+
+pre
+  background linen
+  padding 1em
+  font-size 1.25rem
+
+strong
+  color $dark

@@ -1,0 +1,13 @@
+<nav class="primary-nav">
+{% if menu %}
+	{% for item in menu %}
+			{% set children = item.get_children %}
+      <div class="{{item.class}} nav-link nav-link--{{item.post_name}}  {% if children %}dropdown{% endif %}">
+				<a href="{{item.get_link}}">
+					<span>{{item.title}}</span>
+				</a>
+				{% include "menu.twig" with {'menu': children, 'dropdown': true} %}
+			</div>
+	{% endfor %}
+{% endif %}
+</nav>

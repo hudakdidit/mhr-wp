@@ -1,0 +1,110 @@
+.post-type--restaurant
+  background rgba(white, .8)
+  padding 20px
+
+  +above(tablet)
+    display flex
+  +above(desktop)
+    padding 40px 60px
+
+  .article-h1
+    margin-bottom 20px
+
+  .article-body
+    font-size 1.2rem
+    +above(desktop)
+      font-size 1.4rem
+
+  .article-h1
+    font-size 1.5rem
+    font-weight 400
+    +above(desktop)
+      font-size 2.5rem
+
+  .logo
+    display block
+
+  .logo--young-american-ale-house
+    padding-bottom 1em
+    width 100px
+
+    +above(desktop)
+      width 150px
+
+    img
+      max-width 100%
+      height auto
+
+  a.reservation-link,
+  a.telephone-link
+    padding-right 0
+
+  .mhr-card__special-events
+    padding 40px 20px
+    background rgba(white, .6)
+    margin-bottom 40px
+
+  .mhr-card__special-events__title
+    margin-bottom 1rem
+
+.restaurant-summary
+  padding 40px 0
+  +above(tablet)
+    padding 40px 0 40px 20px
+  +above(desktop)
+    padding 100px 0
+  p:last-child
+    margin-bottom 0
+
+.restaurant-info
+  flex 1 0 auto
+  max-width 420px
+  +above(tablet)
+    width 420px
+  +above(desktop)
+    padding-right 60px
+
+  .logo
+    margin-bottom 1em
+
+.restaurant-info__container
+  max-width 500px
+  padding-top 40px
+
+  h3
+    margin 2em 0 1em
+
+  .address
+    font-size 1.35rem
+    line-height 1.5
+    margin-bottom .5em
+
+.restaurant-page
+  padding-bottom 50px
+
+  h2
+    margin 2em 0 1em
+
+  +above(desktop)
+    .logo
+      display none
+
+.restaurant-sub-page
+  display flex
+  flex-direction column
+  +above(desktop)
+    flex-direction row
+
+  .restaurant-page
+    order 0
+    +above(desktop)
+      order 1
+  .restaurant-info
+    order 1
+    +above(desktop)
+      order 0
+
+
+.restaurant-page-mobile-logo
+  +above(desktop)
+    display none

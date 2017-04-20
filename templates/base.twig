@@ -2,36 +2,48 @@
 
 {% include 'html-header.twig' %}
 	{% block head %}
+	<style>
+		body {
+			background-image: url({{TimberImage(background_image).src}});
+		}
+
+	</style>
+	<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-39509925-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 	{% endblock %}
 	</head>
 {% endblock %}
 
-	<body class="{{body_class}}" data-template="base.twig">
-		<header id="header" >
-			{% block header %}
-				<div class="wrapper">
-					<h1 class="hdr-logo" role="banner">
-						<a class="hdr-logo-link" href="{{site.url}}" rel="home">{{site.name}}</a>
-					</h1>
-					<nav id="nav-main" class="nav-main" role="navigation">
-						{% include "menu.twig" with {'menu': menu.get_items} %}
-					</nav><!-- #nav -->
-				</div>
-			{% endblock %}
-		</header>
+{% if post.background_image %}
+	{% set background_image = post.background_image %}
+{% elseif parent and parent.background_image %}
+	{% set background_image = parent.background_image %}
+{% endif %}
 
-		<section id="content" role="main" class="content-wrapper">
+	<body class="{{body_class}} no-touch" style="{% if background_image %}background-image: url({{TimberImage(background_image)}}){% endif %}" data-template="base.twig">
+		
+		{% block header %}
+			<div class="navigation">
+				<a class="logo" href="{{site.url}}"><img src="{{TimberImage(logo).src}}" alt="{{site.name}}" /></a>
+				<span class="min-toggle fa fa-bars" data-nav-toggle></span>
+				{% include "main-menu.twig" with {'menu': primary_menu.get_items} %}
+			</div>
+		{% endblock %}
+
+		<section id="content">
 			{% if title %}<h1>{{title}}</h1>{% endif %}
-			<div class="wrapper {{sidebar_class}}">
 				{% block content %}
 					Sorry, no content
 				{% endblock %}
 			</div>
-			{% if sidebar %}
-				<aside class="layout-sidebar">
-					{{sidebar}}
-				</aside>
-			{% endif %}
 		</section>
 
 		{% block footer %}
@@ -40,7 +52,5 @@
 			</footer>
 			{{ function('wp_footer') }}
 		{% endblock %}
-
-		<script type="text/javascript" src="{{site.theme.link}}/static/site.js"></script>
 	</body>
 </html>

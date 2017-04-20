@@ -1,0 +1,41 @@
+.image-panel
+  width 100%
+  height auto
+  overflow visible
+  background-size cover
+  background-position center
+  background-repeat no-repeat
+  display flex
+  justify-content center
+  align-items center
+  position relative
+  z-index 10
+
+  &.reservations
+    z-index 5
+
+  +above(tablet)
+    height 80%
+  .no-touch &
+    background-attachment fixed
+
+  &--parsley
+    background-image url("http://tilthrestaurant.com/wp-content/themes/_tilth/library/images/parsley.jpg")
+  &--mosaic
+    background-image url("http://golden-beetle.com/wp-content/themes/_gb/library/images/gb/backgrounds/mosaic.jpg")
+  &--creme-brulee
+    background-image url("http://tilthrestaurant.com/wp-content/themes/_tilth/library/images/6.jpg")
+  &--rabbit-pide
+    z-index 10
+    background-image url("http://golden-beetle.com/wp-content/uploads/2013/06/rabbit-pide-1024x615.jpg")
+  &--pasta
+    background-image url("http://agrodolcerestaurant.net/wp-content/themes/agrodolce-jul2013/library/images/bg/pasta.jpg")
+  &--cheese-board
+    background-image url("http://tilthrestaurant.com/wp-content/themes/_tilth/library/images/4.jpg")
+  &--focaccia
+    background-image url("http://agrodolcerestaurant.net/wp-content/themes/agrodolce-jul2013/library/images/slider/focaccia.jpg")
+  &--young-american-ale-house
+    z-index 10
+    background-image url("http://hudakdidit.com/client/mhr/landing-page/images/young-american-background.jpg")
+    height auto
+    padding 10% 0

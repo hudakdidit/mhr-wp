@@ -24,4 +24,11 @@
 $context = Timber::get_context();
 $post = new TimberPost();
 $context['post'] = $post;
+$context['children'] = Timber::get_posts("post_type=page&post_parent=$post->ID&posts_per_page=-1");
+$context['siblings'] = Timber::get_posts("post_type=page&post_parent=$post->post_parent&exclude=>$post->ID");
+if ($post->post_parent) {
+  $context['parent_title'] = get_the_title($post->post_parent);
+  $context['parent_link'] = get_permalink($post->post_parent);
+}
+
 Timber::render( array( 'page-' . $post->post_name . '.twig', 'page.twig' ), $context );

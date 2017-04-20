@@ -4,10 +4,53 @@
 	<div class="content-wrapper">
 		<article class="post-type-{{post.post_type}}" id="post-{{post.ID}}">
 			<section class="article-content">
-				<h1 class="article-h1">{{post.title}}</h1>
+				<h1 class="article-h1">
+					{% if parent_title %}<a href="{{parent_link}}">{{parent_title}}</a> — {% endif %}
+					{{post.title}}
+				</h1>
+				{% if siblings and post.show_sub_nav %}
+					<nav class="relative-page-nav">
+					  {% for page in siblings if page.ID != post.ID %}
+					  	{% if page.post_title %}
+					  		<a class="button" href="{{page.ID|post_url_by_id}}">{{page.post_title}}</a>
+					  	{% endif %}
+					  {% endfor %}
+					</nav>
+				{% endif %}
 				<div class="article-body">
-					{{post.content}}
+					{% set community = post.get_field('food_advocacy_item')%}
+					{% if community %}
+					  <div class="page-header-row">
+					  	<div>{{post.content}}</div>
+					  	<div><img src="{{TimberImage(post.image).src}}"></div>
+					  </div>
+						{% for item in community%}
+							<div class="toggle-group">
+								<div class="toggle-group__header"><strong>{{item.the_cause}}</strong><span class="fa fa-chevron-down"></span></div>
+								<div class="toggle-group__content">{{item.cause_description}}</div>
+							</div>
+						{% endfor %}
+					{% else %}
+						<div class="row">
+							<div class="article-content">{{post.post_content|shortcodes}}</div>
+							{% if post.thumbnail %}
+								<div class="page-image"><img src="{{TimberImage(post.thumbnail).src}}"></div>
+							{% endif %}
+						</div>
+					{% endif %}
 				</div>
+				{% if children and post.post_name != 'about' %}
+					<nav class="child-page-nav">
+					  {% for page in children %}
+					  	{% set url = page.ID|post_url_by_id %}
+							<div class="child-page-nav__item">
+								<a href="{{url}}" class="child-page-nav__item-background" style="background-image: url({{page.thumbnail}})">
+					  			<h2>{{page.post_title}}</h2>
+								</a>
+							</div>
+					  {% endfor %}
+					</nav>
+				{% endif %}
 			</section>
 		</article>
 	</div><!-- /content-wrapper -->

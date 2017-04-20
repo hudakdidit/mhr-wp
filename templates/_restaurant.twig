@@ -1,0 +1,26 @@
+<div class="reservation-card__column location">
+  <a href="{{restaurant.site_url}}"><img src="{{TimberImage(restaurant.logo).src}}" /></a>
+  <h2>{{restaurant.post_title}}</h2>
+  {% if restaurant.street_address %}
+  <div class="address" itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress">
+    <span itemprop="streetAddress">{{restaurant.street_address}}</span><br>
+    <span itemprop="addressLocality">{{restaurant.city}}</span>,&nbsp;
+    <span itemprop="addressRegion">{{restaurant.state}}</span>&nbsp;
+    <span itemprop="postalCode">{{restaurant.zipcode}}</span></div>
+  {% endif %}
+  <a href="{{restaurant.map_link}}">Map</a>
+</div>
+<div class="reservation-card__column">
+  {{restaurant.hours}}
+</div>
+<div class="reservation-card__column reservation-methods">
+  <div>
+    <h4>Phone Reservations</h4>
+    <a itemprop="telephone" href="tel:{{restaurant.telephone}}" class="telephone-link">
+      <span class="fa fa-phone"></span>
+      <span>{{restaurant.telephone}}</span>
+    </a>
+    <a href="{{restaurant.opentable_reservation_url}}" class="reservation-link"><span class="fa fa-calendar"></span>Reserve with Open Table</a>
+    <div>{{restaurant.promotion}}</div>
+  </div>
+</div>

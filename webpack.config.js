@@ -1,16 +1,22 @@
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+const webpack = require('webpack');
 const package = require('./package.json');
+var poststylus = require('poststylus');
+var autoprefixer = require('autoprefixer');
 
 module.exports = {
-    entry: "./src/site.js",
+    entry: "./src/js/index.js",
     output: {
         path: __dirname,
         filename: "./static/site.js"
     },
     module: {
         loaders: [
-            { test: /\.css$/, loader: "style!css" }
+            {   
+                test: /\.css$/, 
+                loader: "style!css" 
+            }
         ],
         rules: [
             {
@@ -29,6 +35,13 @@ module.exports = {
                     fallback: 'style-loader',
                     use: ['css-loader', 'postcss-loader']
                 })
+            },
+            {
+                test:   /\.styl$/,
+                loader: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: "css-loader!stylus-loader"
+                })
             }
         ]
     },
@@ -38,6 +51,19 @@ module.exports = {
             proxy: package.localUrl,
             files: ['./static', './templates'],
             open: false
+        }),
+        new webpack.LoaderOptionsPlugin({
+            options: {
+                stylus: {
+                    use: [
+                        poststylus([ 'autoprefixer' ])
+                    ]
+                },
+            }
         })
-    ]
+    ],
+    externals: {
+        "jquery": "jQuery",
+        "jquery": "$"
+    }
 };

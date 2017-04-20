@@ -1,17 +1,105 @@
 {% extends "base.twig" %}
 
+
+{% set hasEvents = events|length > 0 %}
+
 {% block content %}
 	<div class="content-wrapper">
-		<article class="post-type-{{post.post_type}}" id="post-{{post.ID}}">
-			<section class="article-content">
-				<h1 class="article-h1">{{post.title}}</h1>
-				<p class="blog-author">
-					<span>By</span><a href="{{post.author.path}}"> {{ post.author.name }} </a><span>&bull;</span> {{ post.post_date|date}}
-				</p>
-				<div class="article-body">
-					{{post.content}}
+		<article class="post-type--{{post.post_type}} {% if post.post_type == 'restaurant' and parent %}restaurant-sub-page{% endif %}" id="post-{{post.ID}}" data-affix-container>
+			{% if post.post_type == 'restaurant' %}
+				<div class="restaurant-info">
+					{% if parent_title %}
+						<a href="{{parent_link}}" class="logo logo--{{parent.post_name}}"><img src="{{TimberImage(parent.logo).src}}" alt="{{parent.title}} Logo" /></a>
+					{% else %}
+						<a href="{{post.site_url}}" class="logo logo--{{post.post_name}}"><img src="{{TimberImage(post.logo).src}}" alt="{{post.title}} Logo" /></a>
+					{% endif %}
+
+					{% set restaurant = post %}
+					{% if parent %}
+						{% set restaurantInfo = parent %}
+					{% else %}
+						{% set restaurantInfo = post %}
+					{% endif %}
+
+					<div class="tabs-group" data-affix>
+						<div class="tabs-header">
+							<a href="#">Info</a>
+							<a href="#">Menus</a>
+
+							{% if hasEvents %}
+								<a href="#">Events</a>
+							{% endif %}
+
+
+						</div>
+					    <div id="restaurant-info" class="tabs-content first">
+					    	{% include '_restaurant-info.twig' with { restaurant: restaurantInfo } %}
+					    </div>
+					    {% if submenu %}
+					    	<div id="restaurant-menus" class="tabs-content">
+					        <nav class="restaurant-info__container">
+					          {% for item in menus %}
+					            {% set url = item.ID|post_url_by_id %}
+					            <div class="{{item.class}} menu-list-item">
+					              <a href="{{item.menu.url}}">{{item.menu_title}}</a>
+					            </div>
+					          {% endfor %}
+					        </nav>
+					    	</div>
+					    {% endif %}
+							{% if hasEvents %}
+								<div id="restaurant-events" class="tabs-content">
+									<nav class="restaurant-info__container">
+									  {% for item in events %}
+												{% set url = item.event.ID|post_url_by_id %}
+						            <div class="{{item.class}} menu-list-item">
+						              <a href="{{url}}">{{item.event.post_title}}</a>
+						            </div>
+                    {% endfor %}
+									</nav>
+								</div>
+							{% endif %}
+					</div>
 				</div>
-			</section>
+			{% endif %}
+			{% if parent %}
+			  <section class="restaurant-page" data-ajax-target="menu">
+					<a href="{{parent_link}}" class="logo logo--{{parent.post_name}} restaurant-page-mobile-logo"><img src="{{TimberImage(parent.logo).src}}" alt="{{parent.title}} Logo" /></a>
+			  	<h1 class="article-h1">{{post.title}}</h1>
+			  	<div>
+			  		{{post.content|raw}}
+			  	</div>
+			  </section>
+			{% elseif post.type == 'restaurant' %}
+			  <section class="restaurant-summary">
+			  	<h1 class="article-h1">{{post.title}}</h1>
+			  	<div class="article-body">
+			  		{{post.content}}
+					</div>
+					{% if post.special_events %}
+						<hr />
+						<div class="mhr-card__special-events">
+							<h2 class="mhr-card__special-events__title">Special Events</h2>
+							{{ post.special_events }}
+						</div>
+					{% endif %}
+						{% if post.get_field('photo_gallery') %}
+							<div class="grid">
+						  {% for image in post.get_field('photo_gallery') %}
+    		  			<a class="grid-item lightbox-link" href="{{ TimberImage(image).src }}"><img src="{{ TimberImage(image.sizes.restaurant_gallery) }}" /></a>
+						  {% endfor %}
+							</div>
+						{% endif %}
+
+			  </section>
+			{% else %}
+				<section class="post-body">
+					<h1>{{post.title}}</h1>
+					<div class="post-body__content">
+						{{post.content}}
+					</div>
+				</section>
+			{% endif %}
 		</article>
 	</div><!-- /content-wrapper -->
 {% endblock %}

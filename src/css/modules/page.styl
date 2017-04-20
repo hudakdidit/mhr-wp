@@ -1,0 +1,30 @@
+.page
+  h1
+    font-size 40px
+    font-weight 200
+    color $primary
+    margin-bottom 40px
+  h3
+    margin-bottom 20px
+
+.article-h1
+  a
+    color $primary
+    text-decoration none
+    padding-bottom 5px
+    +above(tablet)
+      border-bottom 2px solid $primary
+    &:hover
+      color $tilth
+      border-color $tilth
+
+.page-header-row
+  max-width 1000px
+  margin-bottom 2em
+  +above(tablet)
+    display flex
+
+  div:last-child
+    flex 1 0 25%
+    +above(tablet)
+      padding-left 2em

@@ -1,0 +1,96 @@
+{% extends "base.twig" %}
+
+{% block content %}
+		<div class="hero"></div><a class="reservations-bubble" href="/reservations">Make Reservations</a>
+		<div class="scroll-indicator"><span class="fa fa-chevron-down"></span></div>
+    {% for item in restaurants %}
+      {% set restaurant = item.restaurant %}
+			<div class="image-panel image-panel--{{restaurant.post_name}} {% if restaurant.accepts_reservations %} reservations {% endif %}" style="background-image: url({{TimberImage(restaurant.background_image).src}})">
+        <div class="mhr-card mhr-card--restaurant mhr-card--{{restaurant.post_name}}" itemscope="" itemtype="http://schema.org/LocalBusiness">
+          <div class="mhr-card__border">
+            <div class="mhr-card__content">
+              <div class="mhr-card__info">
+                <div>
+                  <h2 itemprop="name">{{restaurant.post_title}}</h2>
+                  <h3>{{restaurant.tagline}}</h3>
+									<!-- {% if restaurant.post_name == 'young-american-ale-house' %}
+										{{restaurant.post_content}}
+									{% endif %} -->
+									{% if restaurant.post_name == 'catering' %}
+										{{restaurant.post_content}}
+									{% endif %}
+                </div>
+                <div>
+									{% if restaurant.street_address %}
+                  <div class="address" itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress">
+										<span itemprop="streetAddress">{{restaurant.street_address}}</span><br>
+										<span itemprop="addressLocality">{{restaurant.city}}</span>,&nbsp;
+										<span itemprop="addressRegion">{{restaurant.state}}</span>&nbsp;
+										<span itemprop="postalCode">{{restaurant.zipcode}}</span>
+										<a href="{{restaurant.map_link}}">Map</a>
+									</div>
+                  <div class="telephone" itemprop="telephone"><a href="tel:{{restaurant.telephone}}">{{restaurant.telephone}}</a></div>
+									{% endif %}
+								</div>
+              </div>
+              	<div class="mhr-card__link">
+
+									{% if restaurant.site_url %}
+										<a href="{{restaurant.site_url}}"><img class="logo logo--{{restaurant.post_name}}" src="{{TimberImage(restaurant.logo).src}}" alt="{{restaurant.post_title}} Logo" /></a>
+									{% elseif restaurant.link %}
+										<a href="{{restaurant.link}}"><img class="logo logo--{{restaurant.post_name}}" src="{{TimberImage(restaurant.logo).src}}" alt="{{restaurant.post_title}} Logo" /></a>
+									{% else %}
+										<img class="logo logo--{{restaurant.post_name}}" src="{{TimberImage(restaurant.logo).src}}" alt="{{restaurant.post_title}} Logo" />
+									{% endif %}
+
+									{% set post_url = restaurant.ID | post_url_by_id %}
+									{% if restaurant.site_url and restaurant.post_name != 'catering' %}
+										<a class="button" href="{{restaurant.site_url}}">More Info</a>
+									{% elseif post_url and restaurant.post_name != 'catering' %}
+										<a class="button" href="{{restaurant.ID | post_url_by_id}}">More Info</a>
+									{% endif %}
+
+									<!-- {% if restaurant.post_name == 'young-american-ale-house' %}
+										<a class="button" target="_blank" href="{{restaurant.download | attachment_url}}">{{restaurant.download_label}}</a>
+									{% endif %} -->
+              	</div>
+            </div>
+						{% if restaurant.special_events %}
+							<hr />
+							<div class="mhr-card__special-events">
+								<h3>Special Events</h3>
+								{{ restaurant.special_events }}
+							</div>
+						{% endif %}
+          </div>
+        </div>
+      </div>
+  	{% endfor %}
+		{% if featured_person %}
+			<div class="image-panel" style="background-image: url({{TimberImage(featured_person.background_image).src}})">
+				<div class="mhr-card mhr-card--featured-person">
+        	<div class="mhr-card__border">
+          	<div class="mhr-card__content">
+            	<div class="col">
+              	<h2 itemprop="name">{{featured_person.post_title}}</h2>
+              	<h3>{{featured_person.title}}</h3>
+								{% if featured_person.award_title %}
+              	<div class="row">
+                	<div><img class="logo logo--catering" src="{{TimberImage(featured_person.award_image).src}}" width="50"></div>
+                	<p class="caption">{{featured_person.award_title}}</p>
+              	</div>
+								{% endif %}
+								{% set link = featured_person.more_info_link|post_url_by_id %}
+								{% if link %}
+								<a href="{{link}}"><span>{{featured_person.read_more_text}}</span></a>
+								{% endif %}
+            	</div>
+            	<div class="col">
+              	<img class="portrait" src="{{TimberImage(featured_person.portrait).src}}" alt="{{featured_person.post_title}} Portrait" />
+            	</div>
+          	</div>
+        	</div>
+      	</div>
+			</div>
+		{% endif %}
+{% endblock %}

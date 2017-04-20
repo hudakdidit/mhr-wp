@@ -1,4 +1,6 @@
-require('./site.css');
+require('../css/index.styl');
+
+const App = require('./modules/app').default;
 const Pjax = require('pjax');
 
 console.log("Document initialized:", window.location.href)
@@ -16,7 +18,8 @@ document.addEventListener("pjax:error", function() {
 })
 
 document.addEventListener("pjax:success", function() {
-  console.log("Event: pjax:success", arguments)
+  console.log("Event: pjax:success", arguments);
+  new App();
 })
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -25,4 +28,4 @@ document.addEventListener("DOMContentLoaded", function() {
     selectors: ['title', '#content']
   });
   console.log("Pjax initialized.", pjax)
-})
+});

@@ -1,1 +1,15 @@
-Copyright {{"now"|date('Y')}}
+<div class="mhr-card mhr-card--social">
+  <div class="">
+    <div class="mhr-card__content">
+      {% for item in footer_links %}
+        <div class="row">
+          <a href="{{item.link}}">
+            <span>{{item.text}}&nbsp;
+              {% if item.icon %}<i class="fa {{item.icon}}"></i>{% endif %}
+            </span>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

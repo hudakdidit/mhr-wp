@@ -1,0 +1,21 @@
+ul
+  list-style disc outside none
+  padding 14px 0
+  margin 1em
+
+  &.two-col
+    +above(tablet)
+      column-count 2
+
+ul > li
+  line-height 1.5
+
+ul li a
+  color $tilth
+  padding .5em 0
+  display block
+
+hr
+  border-top 1px solid white
+  border-bottom 1px solid rgba(black, .5)
+  margin 2em 0

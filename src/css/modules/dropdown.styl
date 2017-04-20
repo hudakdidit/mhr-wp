@@ -1,0 +1,103 @@
+.dropdown
+  position relative
+  border 1px solid transparent
+  +above(desktop)
+    display inline-block
+    width 150px
+
+  &::before
+    content ''
+    position absolute
+    display block
+    top -.5rem
+    width 100%
+    background white
+    opacity 0
+    line-height 1.5
+
+  +above(desktop)
+    &:hover
+      border 1px solid $dark
+      border-top none
+
+      .dropdown__items
+        border 1px solid $dark
+        border-top none
+        width calc(100% + 2px)
+        left -1px
+
+    &:hover::before
+      height .5rem
+      border 1px solid $dark
+      border-bottom none
+      left -1px
+    & .dropdown__items
+      display none
+
+    &:hover
+      background white
+
+      .dropdown__items
+        display block
+
+    &::before
+      opacity 1
+
+  & > a[href="#"]
+    cursor default
+    span::after
+      opacity 0
+
+  .pin-bottom &
+    box-shadow none
+
+    .dropdown__items
+      border 1px solid transparent
+
+      & > a
+        padding 0
+
+  +above(desktop)
+    .pin-bottom &:hover
+      border 1px solid $dark
+      border-top none
+
+      .dropdown__items
+        border 1px solid $dark
+        border-bottom none
+        border-radius 0
+        width calc(100% + 2px)
+        left -1px
+
+  &.nav-link--about
+    +above(desktop)
+      min-width 250px
+  &.nav-link--restaurants
+    +above(desktop)
+      min-width 180px
+
+.dropdown__items
+  padding-top .5rem
+  padding-left 1rem
+  padding-right 1em
+  width 100%
+  list-style none
+  padding-left 1em
+  margin 0
+
+  a span
+    line-height 1.35
+
+  .current-menu-item a span
+    font-weight 700
+
+  +above(desktop)
+    padding-left 0
+    position absolute
+    left 0
+    background white
+
+  .pin-bottom &
+    box-shadow none
+    +above(desktop)
+      transform translateY(calc(-100% - 36px))
