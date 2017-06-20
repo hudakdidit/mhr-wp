@@ -63,11 +63,26 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 39);
+/******/ 	return __webpack_require__(__webpack_require__.s = 62);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports) {
+
+/* global HTMLCollection: true */
+
+module.exports = function(els, fn, context) {
+  if (els instanceof HTMLCollection || els instanceof NodeList || els instanceof Array) {
+    return Array.prototype.forEach.call(els, fn, context)
+  }
+  // assume simple dom element
+  return fn.call(context, els)
+}
+
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports) {
 
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
@@ -76,7 +91,7 @@ var global = module.exports = typeof window != 'undefined' && window.Math == Mat
 if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports) {
 
 module.exports = function(it){
@@ -84,23 +99,23 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports) {
 
 var core = module.exports = {version: '2.4.0'};
 if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Thank's IE8 for his funny defineProperty
-module.exports = !__webpack_require__(4)(function(){
+module.exports = !__webpack_require__(5)(function(){
   return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
 });
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports) {
 
 module.exports = function(exec){
@@ -112,7 +127,24 @@ module.exports = function(exec){
 };
 
 /***/ }),
-/* 5 */
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var forEachEls = __webpack_require__(0)
+
+module.exports = function(els, events, listener, useCapture) {
+  events = (typeof events === "string" ? events.split(" ") : events)
+
+  events.forEach(function(e) {
+    forEachEls(els, function(el) {
+      el.addEventListener(e, listener, useCapture)
+    })
+  })
+}
+
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -122,11 +154,11 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 6 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // optional / simple context binding
-var aFunction = __webpack_require__(16);
+var aFunction = __webpack_require__(20);
 module.exports = function(fn, that, length){
   aFunction(fn);
   if(that === undefined)return fn;
@@ -147,12 +179,12 @@ module.exports = function(fn, that, length){
 };
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var dP         = __webpack_require__(28)
-  , createDesc = __webpack_require__(29);
-module.exports = __webpack_require__(3) ? function(object, key, value){
+var dP         = __webpack_require__(32)
+  , createDesc = __webpack_require__(33);
+module.exports = __webpack_require__(4) ? function(object, key, value){
   return dP.f(object, key, createDesc(1, value));
 } : function(object, key, value){
   object[key] = value;
@@ -160,7 +192,7 @@ module.exports = __webpack_require__(3) ? function(object, key, value){
 };
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports) {
 
 var id = 0
@@ -170,7 +202,25 @@ module.exports = function(key){
 };
 
 /***/ }),
-/* 9 */
+/* 11 */
+/***/ (function(module, exports) {
+
+module.exports = function(obj) {
+  if (null === obj || "object" != typeof obj) {
+    return obj
+  }
+  var copy = obj.constructor()
+  for (var attr in obj) {
+    if (obj.hasOwnProperty(attr)) {
+      copy[attr] = obj[attr]
+    }
+  }
+  return copy
+}
+
+
+/***/ }),
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -182,52 +232,415 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _fastclick = __webpack_require__(43);
+
+var _fastclick2 = _interopRequireDefault(_fastclick);
+
+var _scroll = __webpack_require__(15);
+
+var _tabs = __webpack_require__(16);
+
+var _tabs2 = _interopRequireDefault(_tabs);
+
+var _window = __webpack_require__(17);
+
+var _window2 = _interopRequireDefault(_window);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Affix = function () {
-  function Affix() {
-    _classCallCheck(this, Affix);
+// import Affix from './affix';
 
-    this.affixElement = document.querySelector('[data-affix]');
-    this.affixContainer = document.querySelector('[data-affix-container]');
-    if (!this.affixElement && !this.affixContainer) {
-      return;
+__webpack_require__(18);
+__webpack_require__(19);
+
+var App = function () {
+  function App() {
+    _classCallCheck(this, App);
+
+    window.$ = jQuery;
+    this.touch = false;
+    this._initToggles();
+    this._initFastClick();
+    _window2.default.init();
+
+    // this.affix = new Affix();
+
+    var anchorLinks = document.querySelectorAll('a[href="#"]');
+    if (anchorLinks.length) {
+      Array.prototype.forEach.call(anchorLinks, function (a) {
+        a.addEventListener('click', function (e) {
+          return e.preventDefault();
+        });
+      });
     }
-    this._handleResize = this._handleResize.bind(this);
-    window.resize = this._handleResize;
-    this._handleResize();
-    this._handleScroll = this._handleScroll.bind(this);
-    window.onscroll = this._handleScroll;
+
+    this.cards = document.querySelector('.mhr-cards-container');
+    this.hero = document.querySelector('.hero');
+    this.main = document.querySelector('main');
+    this.nav = document.querySelector('.primary-nav');
+    this.scrollIndicator = document.querySelector('.scroll-indicator');
+    this.navToggle = document.querySelector('[data-nav-toggle]');
+
+    if (this.hero) {
+      // Resize
+      this._handleResize();
+      this._handleResize = this._handleResize.bind(this);
+      window.onresize = this._handleResize;
+
+      // Scroll
+      this._handleScroll();
+      this._handleScroll = this._handleScroll.bind(this);
+      window.onscroll = this._handleScroll;
+      this._scrollWindowToTop = this._scrollWindowToTop.bind(this);
+    }
+
+    // Test for Touch Events
+    var touch = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+
+    // Navigation
+    var event = touch ? 'touchstart' : 'click';
+    if (this.navToggle) {
+      this.navToggle.addEventListener(event, this._toggleMenu.bind(this));
+    }
+
+    this.tabs = new _tabs2.default(event);
+
+    if (touch) {
+      document.body.classList.add('touch');
+      document.body.classList.remove('no-touch');
+    }
   }
 
-  _createClass(Affix, [{
+  _createClass(App, [{
+    key: '_toggleMenu',
+    value: function _toggleMenu() {
+      if (this.nav.classList.contains('active')) {
+        this.nav.classList.remove('active');
+        this.navToggle.classList.remove('fa-close');
+        this.navToggle.classList.add('fa-bars');
+      } else {
+        this.nav.classList.add('active');
+        this.navToggle.classList.remove('fa-bars');
+        this.navToggle.classList.add('fa-close');
+      }
+    }
+  }, {
     key: '_handleResize',
     value: function _handleResize() {
-      this.affixElementOffsetWidth = this.affixElement.offsetWidth;
-      this.affixElementOffsetTop = this.affixElement.offsetTop;
-      this.affixElementOffsetHeight = this.affixElement.offsetHeight;
+      this.heroDimensions = this.hero.getBoundingClientRect();
     }
   }, {
     key: '_handleScroll',
     value: function _handleScroll() {
-      var scrollY = window.scrollY;
-      if (scrollY > this.affixElementOffsetTop && scrollY + window.innerHeight < this.affixContainer.offsetTop + this.affixContainer.offsetHeight) {
-        this.affixElement.classList.add('affix');
-        this.affixElement.style.width = this.affixElementOffsetWidth + 'px';
+      if (window.scrollY > (this.heroDimensions.height || window.height)) {
+        this.scrollIndicator.classList.add('back-to-top');
+        this.nav.classList.add('pin-bottom');
+        this.scrollIndicator.addEventListener('click', this._scrollWindowToTop);
       } else {
-        this.affixElement.classList.remove('affix');
-        this.affixElement.removeAttribute('style');
+        this.scrollIndicator.classList.remove('back-to-top');
+        this.nav.classList.remove('pin-bottom');
+        this.scrollIndicator.removeEventListener('click', this._scrollWindowToTop);
+      }
+    }
+  }, {
+    key: '_scrollWindowToTop',
+    value: function _scrollWindowToTop() {
+      (0, _scroll.scrollToY)(0, 300, 'easeInOutQuint');
+    }
+  }, {
+    key: '_initToggles',
+    value: function _initToggles() {
+      var toggleGroups = document.querySelectorAll('.toggle-group');
+      if (!toggleGroups.length) {
+        return;
+      }
+      Array.prototype.forEach.call(toggleGroups, function (tg) {
+        tg.querySelector('.toggle-group__header').addEventListener('click', function () {
+          if (tg.classList.contains('open')) {
+            tg.classList.remove('open');
+          } else {
+            Array.prototype.forEach.call(toggleGroups, function (t) {
+              return t.classList.remove('open');
+            });
+            tg.classList.add('open');
+          }
+        });
+      });
+    }
+  }, {
+    key: '_initFastClick',
+    value: function _initFastClick() {
+      if ('addEventListener' in document) {
+        document.addEventListener('DOMContentLoaded', function () {
+          _fastclick2.default.attach(document.body);
+        }, false);
       }
     }
   }]);
 
-  return Affix;
+  return App;
 }();
 
-exports.default = Affix;
+exports.default = App;
 
 /***/ }),
-/* 10 */
+/* 13 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var clone = __webpack_require__(11)
+var executeScripts = __webpack_require__(46)
+
+var forEachEls = __webpack_require__(0)
+
+var newUid = __webpack_require__(61)
+
+var on = __webpack_require__(6)
+// var off = require("./lib/events/on.js")
+var trigger = __webpack_require__(45)
+
+
+var Pjax = function(options) {
+    this.firstrun = true
+
+    var parseOptions = __webpack_require__(55);
+    parseOptions.apply(this,[options])
+    this.log("Pjax options", this.options)
+
+    this.maxUid = this.lastUid = newUid()
+
+    this.parseDOM(document)
+
+    on(window, "popstate", function(st) {
+      if (st.state) {
+        var opt = clone(this.options)
+        opt.url = st.state.url
+        opt.title = st.state.title
+        opt.history = false
+
+        if (st.state.uid < this.lastUid) {
+          opt.backward = true
+        }
+        else {
+          opt.forward = true
+        }
+        this.lastUid = st.state.uid
+
+        // @todo implement history cache here, based on uid
+        this.loadUrl(st.state.url, opt)
+      }
+    }.bind(this))
+  }
+
+Pjax.prototype = {
+  log: __webpack_require__(52),
+
+  getElements: __webpack_require__(51),
+
+  parseDOM: __webpack_require__(53),
+
+  refresh: __webpack_require__(56),
+
+  reload: __webpack_require__(57),
+
+  attachLink: __webpack_require__(50),
+
+  forEachSelectors: function(cb, context, DOMcontext) {
+    return __webpack_require__(47).bind(this)(this.options.selectors, cb, context, DOMcontext)
+  },
+
+  switchSelectors: function(selectors, fromEl, toEl, options) {
+    return __webpack_require__(59).bind(this)(this.options.switches, this.options.switchesOptions, selectors, fromEl, toEl, options)
+  },
+
+  // too much problem with the code below
+  // + it’s too dangerous
+//   switchFallback: function(fromEl, toEl) {
+//     this.switchSelectors(["head", "body"], fromEl, toEl)
+//     // execute script when DOM is like it should be
+//     Pjax.executeScripts(document.querySelector("head"))
+//     Pjax.executeScripts(document.querySelector("body"))
+//   }
+
+  latestChance: function(href) {
+    window.location = href
+  },
+
+  onSwitch: function() {
+    trigger(window, "resize scroll")
+  },
+
+  loadContent: function(html, options) {
+    var tmpEl = document.implementation.createHTMLDocument()
+
+    // parse HTML attributes to copy them
+    // since we are forced to use documentElement.innerHTML (outerHTML can't be used for <html>)
+    var htmlRegex = /<html[^>]+>/gi
+    var htmlAttribsRegex = /\s?[a-z:]+(?:\=(?:\'|\")[^\'\">]+(?:\'|\"))*/gi
+    var matches = html.match(htmlRegex)
+    if (matches && matches.length) {
+      matches = matches[0].match(htmlAttribsRegex)
+      if (matches.length) {
+        matches.shift()
+        matches.forEach(function(htmlAttrib) {
+          var attr = htmlAttrib.trim().split("=")
+          if (attr.length === 1) {
+            tmpEl.documentElement.setAttribute(attr[0], true)
+          }
+          else {
+            tmpEl.documentElement.setAttribute(attr[0], attr[1].slice(1, -1))
+          }
+        })
+      }
+    }
+
+    tmpEl.documentElement.innerHTML = html
+    this.log("load content", tmpEl.documentElement.attributes, tmpEl.documentElement.innerHTML.length)
+
+    // Clear out any focused controls before inserting new page contents.
+    // we clear focus on non form elements
+    if (document.activeElement && !document.activeElement.value) {
+      try {
+        document.activeElement.blur()
+      } catch (e) { }
+    }
+
+    // try {
+    this.switchSelectors(this.options.selectors, tmpEl, document, options)
+
+    // FF bug: Won’t autofocus fields that are inserted via JS.
+    // This behavior is incorrect. So if theres no current focus, autofocus
+    // the last field.
+    //
+    // http://www.w3.org/html/wg/drafts/html/master/forms.html
+    var autofocusEl = Array.prototype.slice.call(document.querySelectorAll("[autofocus]")).pop()
+    if (autofocusEl && document.activeElement !== autofocusEl) {
+      autofocusEl.focus();
+    }
+
+    // execute scripts when DOM have been completely updated
+    this.options.selectors.forEach(function(selector) {
+      forEachEls(document.querySelectorAll(selector), function(el) {
+        executeScripts(el)
+      })
+    })
+    // }
+    // catch(e) {
+    //   if (this.options.debug) {
+    //     this.log("Pjax switch fail: ", e)
+    //   }
+    //   this.switchFallback(tmpEl, document)
+    // }
+  },
+
+  doRequest: __webpack_require__(58),
+
+  loadUrl: function(href, options) {
+    this.log("load href", href, options)
+
+    trigger(document, "pjax:send", options);
+
+    // Do the request
+    this.doRequest(href, function(html) {
+      // Fail if unable to load HTML via AJAX
+      if (html === false) {
+        trigger(document,"pjax:complete pjax:error", options)
+
+        return
+      }
+
+      // Clear out any focused controls before inserting new page contents.
+      document.activeElement.blur()
+
+      try {
+        this.loadContent(html, options)
+      }
+      catch (e) {
+        if (!this.options.debug) {
+          if (console && console.error) {
+            console.error("Pjax switch fail: ", e)
+          }
+          this.latestChance(href)
+          return
+        }
+        else {
+          throw e
+        }
+      }
+
+      if (options.history) {
+        if (this.firstrun) {
+          this.lastUid = this.maxUid = newUid()
+          this.firstrun = false
+          window.history.replaceState({
+            url: window.location.href,
+            title: document.title,
+            uid: this.maxUid
+          },
+          document.title)
+        }
+
+        // Update browser history
+        this.lastUid = this.maxUid = newUid()
+        window.history.pushState({
+          url: href,
+          title: options.title,
+          uid: this.maxUid
+        },
+          options.title,
+          href)
+      }
+
+      this.forEachSelectors(function(el) {
+        this.parseDOM(el)
+      }, this)
+
+      // Fire Events
+      trigger(document,"pjax:complete pjax:success", options)
+
+      options.analytics()
+
+      // Scroll page to top on new page load
+      if (options.scrollTo !== false) {
+        if (options.scrollTo.length > 1) {
+          window.scrollTo(options.scrollTo[0], options.scrollTo[1])
+        }
+        else {
+          window.scrollTo(0, options.scrollTo)
+        }
+      }
+    }.bind(this))
+  }
+}
+
+Pjax.isSupported = __webpack_require__(48);
+
+//arguably could do `if( require("./lib/is-supported.js")()) {` but that might be a little to simple
+if (Pjax.isSupported()) {
+  module.exports = Pjax
+}
+// if there isn’t required browser functions, returning stupid api
+else {
+  var stupidPjax = function() {}
+  for (var key in Pjax.prototype) {
+    if (Pjax.prototype.hasOwnProperty(key) && typeof Pjax.prototype[key] === "function") {
+      stupidPjax[key] = stupidPjax
+    }
+  }
+
+  module.exports = stupidPjax
+}
+
+
+/***/ }),
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -300,7 +713,7 @@ function scrollToY(scrollTargetY, speed, easing) {
 }
 
 /***/ }),
-/* 11 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -343,7 +756,9 @@ var Tabs = function () {
         });
       });
       var activeTab = window.location.search ? window.location.search.split('=').pop() : 0;
-      this.setActiveTab(activeTab);
+      if (!$('.tabs-header a.active').length) {
+        this.setActiveTab(activeTab);
+      }
     }
   }, {
     key: 'resetTabs',
@@ -362,6 +777,7 @@ var Tabs = function () {
       var _window = window,
           history = _window.history;
 
+
       if (index !== this.activeTab) {
         this.resetTabs();
         this.$tabHeaders.eq(index).addClass('active');
@@ -377,7 +793,58 @@ var Tabs = function () {
 exports.default = Tabs;
 
 /***/ }),
-/* 12 */
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function PopupCenter(url, title, width, height, top, left) {
+    // Fixes dual-screen position                         Most browsers      Firefox
+    var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
+    var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
+
+    // const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    // const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+    // var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+    // var top = ((height / 2) - (h / 2)) + dualScreenTop;
+    var newWindow = window.open(url, title, 'scrollbars=yes, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
+
+    // Puts focus on the newWindow
+    if (window.focus) {
+        newWindow.focus();
+    }
+}
+
+function openLinkInWindow(e) {
+    e.preventDefault();
+    var linkEl = e.target;
+    var url = linkEl.getAttribute('href');
+    var title = linkEl.getAttribute('title');
+    var $restaurantSummary = $('.restaurant-summary');
+
+    var _$restaurantSummary$o = $restaurantSummary.offset(),
+        top = _$restaurantSummary$o.top,
+        left = _$restaurantSummary$o.left;
+
+    PopupCenter(url, title, $restaurantSummary.width(), window.innerHeight, top, left);
+}
+
+exports.default = {
+    init: function init() {
+        var links = document.querySelectorAll('[data-open-window]');
+        links.forEach(function (link) {
+            return link.addEventListener('click', openLinkInWindow, false);
+        });
+    }
+};
+
+/***/ }),
+/* 18 */
 /***/ (function(module, exports) {
 
 /*
@@ -624,20 +1091,397 @@ if ("document" in window.self) {
 
 
 /***/ }),
-/* 13 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(38);
-module.exports = __webpack_require__(2).Array.forEach;
+__webpack_require__(42);
+module.exports = __webpack_require__(3).Array.forEach;
 
 /***/ }),
-/* 14 */
+/* 20 */
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+module.exports = function(it){
+  if(typeof it != 'function')throw TypeError(it + ' is not a function!');
+  return it;
+};
 
 /***/ }),
-/* 15 */
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(2);
+module.exports = function(it){
+  if(!isObject(it))throw TypeError(it + ' is not an object!');
+  return it;
+};
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 0 -> Array#forEach
+// 1 -> Array#map
+// 2 -> Array#filter
+// 3 -> Array#some
+// 4 -> Array#every
+// 5 -> Array#find
+// 6 -> Array#findIndex
+var ctx      = __webpack_require__(8)
+  , IObject  = __webpack_require__(30)
+  , toObject = __webpack_require__(39)
+  , toLength = __webpack_require__(38)
+  , asc      = __webpack_require__(24);
+module.exports = function(TYPE, $create){
+  var IS_MAP        = TYPE == 1
+    , IS_FILTER     = TYPE == 2
+    , IS_SOME       = TYPE == 3
+    , IS_EVERY      = TYPE == 4
+    , IS_FIND_INDEX = TYPE == 6
+    , NO_HOLES      = TYPE == 5 || IS_FIND_INDEX
+    , create        = $create || asc;
+  return function($this, callbackfn, that){
+    var O      = toObject($this)
+      , self   = IObject(O)
+      , f      = ctx(callbackfn, that, 3)
+      , length = toLength(self.length)
+      , index  = 0
+      , result = IS_MAP ? create($this, length) : IS_FILTER ? create($this, 0) : undefined
+      , val, res;
+    for(;length > index; index++)if(NO_HOLES || index in self){
+      val = self[index];
+      res = f(val, index, O);
+      if(TYPE){
+        if(IS_MAP)result[index] = res;            // map
+        else if(res)switch(TYPE){
+          case 3: return true;                    // some
+          case 5: return val;                     // find
+          case 6: return index;                   // findIndex
+          case 2: result.push(val);               // filter
+        } else if(IS_EVERY)return false;          // every
+      }
+    }
+    return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : result;
+  };
+};
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(2)
+  , isArray  = __webpack_require__(31)
+  , SPECIES  = __webpack_require__(41)('species');
+
+module.exports = function(original){
+  var C;
+  if(isArray(original)){
+    C = original.constructor;
+    // cross-realm fallback
+    if(typeof C == 'function' && (C === Array || isArray(C.prototype)))C = undefined;
+    if(isObject(C)){
+      C = C[SPECIES];
+      if(C === null)C = undefined;
+    }
+  } return C === undefined ? Array : C;
+};
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 9.4.2.3 ArraySpeciesCreate(originalArray, length)
+var speciesConstructor = __webpack_require__(23);
+
+module.exports = function(original, length){
+  return new (speciesConstructor(original))(length);
+};
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports) {
+
+// 7.2.1 RequireObjectCoercible(argument)
+module.exports = function(it){
+  if(it == undefined)throw TypeError("Can't call method on  " + it);
+  return it;
+};
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(2)
+  , document = __webpack_require__(1).document
+  // in old IE typeof document.createElement is 'object'
+  , is = isObject(document) && isObject(document.createElement);
+module.exports = function(it){
+  return is ? document.createElement(it) : {};
+};
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global    = __webpack_require__(1)
+  , core      = __webpack_require__(3)
+  , hide      = __webpack_require__(9)
+  , redefine  = __webpack_require__(34)
+  , ctx       = __webpack_require__(8)
+  , PROTOTYPE = 'prototype';
+
+var $export = function(type, name, source){
+  var IS_FORCED = type & $export.F
+    , IS_GLOBAL = type & $export.G
+    , IS_STATIC = type & $export.S
+    , IS_PROTO  = type & $export.P
+    , IS_BIND   = type & $export.B
+    , target    = IS_GLOBAL ? global : IS_STATIC ? global[name] || (global[name] = {}) : (global[name] || {})[PROTOTYPE]
+    , exports   = IS_GLOBAL ? core : core[name] || (core[name] = {})
+    , expProto  = exports[PROTOTYPE] || (exports[PROTOTYPE] = {})
+    , key, own, out, exp;
+  if(IS_GLOBAL)source = name;
+  for(key in source){
+    // contains in native
+    own = !IS_FORCED && target && target[key] !== undefined;
+    // export native or passed
+    out = (own ? target : source)[key];
+    // bind timers to global for call from export context
+    exp = IS_BIND && own ? ctx(out, global) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
+    // extend global
+    if(target)redefine(target, key, out, type & $export.U);
+    // export
+    if(exports[key] != out)hide(exports, key, exp);
+    if(IS_PROTO && expProto[key] != out)expProto[key] = out;
+  }
+};
+global.core = core;
+// type bitmap
+$export.F = 1;   // forced
+$export.G = 2;   // global
+$export.S = 4;   // static
+$export.P = 8;   // proto
+$export.B = 16;  // bind
+$export.W = 32;  // wrap
+$export.U = 64;  // safe
+$export.R = 128; // real proto method for `library` 
+module.exports = $export;
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports) {
+
+var hasOwnProperty = {}.hasOwnProperty;
+module.exports = function(it, key){
+  return hasOwnProperty.call(it, key);
+};
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = !__webpack_require__(4) && !__webpack_require__(5)(function(){
+  return Object.defineProperty(__webpack_require__(26)('div'), 'a', {get: function(){ return 7; }}).a != 7;
+});
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// fallback for non-array-like ES3 and non-enumerable old V8 strings
+var cof = __webpack_require__(7);
+module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
+  return cof(it) == 'String' ? it.split('') : Object(it);
+};
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.2.2 IsArray(argument)
+var cof = __webpack_require__(7);
+module.exports = Array.isArray || function isArray(arg){
+  return cof(arg) == 'Array';
+};
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var anObject       = __webpack_require__(21)
+  , IE8_DOM_DEFINE = __webpack_require__(29)
+  , toPrimitive    = __webpack_require__(40)
+  , dP             = Object.defineProperty;
+
+exports.f = __webpack_require__(4) ? Object.defineProperty : function defineProperty(O, P, Attributes){
+  anObject(O);
+  P = toPrimitive(P, true);
+  anObject(Attributes);
+  if(IE8_DOM_DEFINE)try {
+    return dP(O, P, Attributes);
+  } catch(e){ /* empty */ }
+  if('get' in Attributes || 'set' in Attributes)throw TypeError('Accessors not supported!');
+  if('value' in Attributes)O[P] = Attributes.value;
+  return O;
+};
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports) {
+
+module.exports = function(bitmap, value){
+  return {
+    enumerable  : !(bitmap & 1),
+    configurable: !(bitmap & 2),
+    writable    : !(bitmap & 4),
+    value       : value
+  };
+};
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global    = __webpack_require__(1)
+  , hide      = __webpack_require__(9)
+  , has       = __webpack_require__(28)
+  , SRC       = __webpack_require__(10)('src')
+  , TO_STRING = 'toString'
+  , $toString = Function[TO_STRING]
+  , TPL       = ('' + $toString).split(TO_STRING);
+
+__webpack_require__(3).inspectSource = function(it){
+  return $toString.call(it);
+};
+
+(module.exports = function(O, key, val, safe){
+  var isFunction = typeof val == 'function';
+  if(isFunction)has(val, 'name') || hide(val, 'name', key);
+  if(O[key] === val)return;
+  if(isFunction)has(val, SRC) || hide(val, SRC, O[key] ? '' + O[key] : TPL.join(String(key)));
+  if(O === global){
+    O[key] = val;
+  } else {
+    if(!safe){
+      delete O[key];
+      hide(O, key, val);
+    } else {
+      if(O[key])O[key] = val;
+      else hide(O, key, val);
+    }
+  }
+// add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
+})(Function.prototype, TO_STRING, function toString(){
+  return typeof this == 'function' && this[SRC] || $toString.call(this);
+});
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(1)
+  , SHARED = '__core-js_shared__'
+  , store  = global[SHARED] || (global[SHARED] = {});
+module.exports = function(key){
+  return store[key] || (store[key] = {});
+};
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var fails = __webpack_require__(5);
+
+module.exports = function(method, arg){
+  return !!method && fails(function(){
+    arg ? method.call(null, function(){}, 1) : method.call(null);
+  });
+};
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports) {
+
+// 7.1.4 ToInteger
+var ceil  = Math.ceil
+  , floor = Math.floor;
+module.exports = function(it){
+  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
+};
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.15 ToLength
+var toInteger = __webpack_require__(37)
+  , min       = Math.min;
+module.exports = function(it){
+  return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
+};
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.13 ToObject(argument)
+var defined = __webpack_require__(25);
+module.exports = function(it){
+  return Object(defined(it));
+};
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.1 ToPrimitive(input [, PreferredType])
+var isObject = __webpack_require__(2);
+// instead of the ES6 spec version, we didn't implement @@toPrimitive case
+// and the second argument - flag - preferred type is a string
+module.exports = function(it, S){
+  if(!isObject(it))return it;
+  var fn, val;
+  if(S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
+  if(typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it)))return val;
+  if(!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
+  throw TypeError("Can't convert object to primitive value");
+};
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var store      = __webpack_require__(35)('wks')
+  , uid        = __webpack_require__(10)
+  , Symbol     = __webpack_require__(1).Symbol
+  , USE_SYMBOL = typeof Symbol == 'function';
+
+var $exports = module.exports = function(name){
+  return store[name] || (store[name] =
+    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : uid)('Symbol.' + name));
+};
+
+$exports.store = store;
+
+/***/ }),
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $export  = __webpack_require__(27)
+  , $forEach = __webpack_require__(22)(0)
+  , STRICT   = __webpack_require__(36)([].forEach, true);
+
+$export($export.P + $export.F * !STRICT, 'Array', {
+  // 22.1.3.10 / 15.4.4.18 Array.prototype.forEach(callbackfn [, thisArg])
+  forEach: function forEach(callbackfn /* , thisArg */){
+    return $forEach(this, callbackfn, arguments[1]);
+  }
+});
+
+/***/ }),
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;;(function () {
@@ -1485,736 +2329,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;;(function () {
 
 
 /***/ }),
-/* 16 */
-/***/ (function(module, exports) {
-
-module.exports = function(it){
-  if(typeof it != 'function')throw TypeError(it + ' is not a function!');
-  return it;
-};
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__(1);
-module.exports = function(it){
-  if(!isObject(it))throw TypeError(it + ' is not an object!');
-  return it;
-};
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 0 -> Array#forEach
-// 1 -> Array#map
-// 2 -> Array#filter
-// 3 -> Array#some
-// 4 -> Array#every
-// 5 -> Array#find
-// 6 -> Array#findIndex
-var ctx      = __webpack_require__(6)
-  , IObject  = __webpack_require__(26)
-  , toObject = __webpack_require__(35)
-  , toLength = __webpack_require__(34)
-  , asc      = __webpack_require__(20);
-module.exports = function(TYPE, $create){
-  var IS_MAP        = TYPE == 1
-    , IS_FILTER     = TYPE == 2
-    , IS_SOME       = TYPE == 3
-    , IS_EVERY      = TYPE == 4
-    , IS_FIND_INDEX = TYPE == 6
-    , NO_HOLES      = TYPE == 5 || IS_FIND_INDEX
-    , create        = $create || asc;
-  return function($this, callbackfn, that){
-    var O      = toObject($this)
-      , self   = IObject(O)
-      , f      = ctx(callbackfn, that, 3)
-      , length = toLength(self.length)
-      , index  = 0
-      , result = IS_MAP ? create($this, length) : IS_FILTER ? create($this, 0) : undefined
-      , val, res;
-    for(;length > index; index++)if(NO_HOLES || index in self){
-      val = self[index];
-      res = f(val, index, O);
-      if(TYPE){
-        if(IS_MAP)result[index] = res;            // map
-        else if(res)switch(TYPE){
-          case 3: return true;                    // some
-          case 5: return val;                     // find
-          case 6: return index;                   // findIndex
-          case 2: result.push(val);               // filter
-        } else if(IS_EVERY)return false;          // every
-      }
-    }
-    return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : result;
-  };
-};
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__(1)
-  , isArray  = __webpack_require__(27)
-  , SPECIES  = __webpack_require__(37)('species');
-
-module.exports = function(original){
-  var C;
-  if(isArray(original)){
-    C = original.constructor;
-    // cross-realm fallback
-    if(typeof C == 'function' && (C === Array || isArray(C.prototype)))C = undefined;
-    if(isObject(C)){
-      C = C[SPECIES];
-      if(C === null)C = undefined;
-    }
-  } return C === undefined ? Array : C;
-};
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 9.4.2.3 ArraySpeciesCreate(originalArray, length)
-var speciesConstructor = __webpack_require__(19);
-
-module.exports = function(original, length){
-  return new (speciesConstructor(original))(length);
-};
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports) {
-
-// 7.2.1 RequireObjectCoercible(argument)
-module.exports = function(it){
-  if(it == undefined)throw TypeError("Can't call method on  " + it);
-  return it;
-};
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__(1)
-  , document = __webpack_require__(0).document
-  // in old IE typeof document.createElement is 'object'
-  , is = isObject(document) && isObject(document.createElement);
-module.exports = function(it){
-  return is ? document.createElement(it) : {};
-};
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global    = __webpack_require__(0)
-  , core      = __webpack_require__(2)
-  , hide      = __webpack_require__(7)
-  , redefine  = __webpack_require__(30)
-  , ctx       = __webpack_require__(6)
-  , PROTOTYPE = 'prototype';
-
-var $export = function(type, name, source){
-  var IS_FORCED = type & $export.F
-    , IS_GLOBAL = type & $export.G
-    , IS_STATIC = type & $export.S
-    , IS_PROTO  = type & $export.P
-    , IS_BIND   = type & $export.B
-    , target    = IS_GLOBAL ? global : IS_STATIC ? global[name] || (global[name] = {}) : (global[name] || {})[PROTOTYPE]
-    , exports   = IS_GLOBAL ? core : core[name] || (core[name] = {})
-    , expProto  = exports[PROTOTYPE] || (exports[PROTOTYPE] = {})
-    , key, own, out, exp;
-  if(IS_GLOBAL)source = name;
-  for(key in source){
-    // contains in native
-    own = !IS_FORCED && target && target[key] !== undefined;
-    // export native or passed
-    out = (own ? target : source)[key];
-    // bind timers to global for call from export context
-    exp = IS_BIND && own ? ctx(out, global) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
-    // extend global
-    if(target)redefine(target, key, out, type & $export.U);
-    // export
-    if(exports[key] != out)hide(exports, key, exp);
-    if(IS_PROTO && expProto[key] != out)expProto[key] = out;
-  }
-};
-global.core = core;
-// type bitmap
-$export.F = 1;   // forced
-$export.G = 2;   // global
-$export.S = 4;   // static
-$export.P = 8;   // proto
-$export.B = 16;  // bind
-$export.W = 32;  // wrap
-$export.U = 64;  // safe
-$export.R = 128; // real proto method for `library` 
-module.exports = $export;
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports) {
-
-var hasOwnProperty = {}.hasOwnProperty;
-module.exports = function(it, key){
-  return hasOwnProperty.call(it, key);
-};
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = !__webpack_require__(3) && !__webpack_require__(4)(function(){
-  return Object.defineProperty(__webpack_require__(22)('div'), 'a', {get: function(){ return 7; }}).a != 7;
-});
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// fallback for non-array-like ES3 and non-enumerable old V8 strings
-var cof = __webpack_require__(5);
-module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
-  return cof(it) == 'String' ? it.split('') : Object(it);
-};
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.2.2 IsArray(argument)
-var cof = __webpack_require__(5);
-module.exports = Array.isArray || function isArray(arg){
-  return cof(arg) == 'Array';
-};
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject       = __webpack_require__(17)
-  , IE8_DOM_DEFINE = __webpack_require__(25)
-  , toPrimitive    = __webpack_require__(36)
-  , dP             = Object.defineProperty;
-
-exports.f = __webpack_require__(3) ? Object.defineProperty : function defineProperty(O, P, Attributes){
-  anObject(O);
-  P = toPrimitive(P, true);
-  anObject(Attributes);
-  if(IE8_DOM_DEFINE)try {
-    return dP(O, P, Attributes);
-  } catch(e){ /* empty */ }
-  if('get' in Attributes || 'set' in Attributes)throw TypeError('Accessors not supported!');
-  if('value' in Attributes)O[P] = Attributes.value;
-  return O;
-};
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports) {
-
-module.exports = function(bitmap, value){
-  return {
-    enumerable  : !(bitmap & 1),
-    configurable: !(bitmap & 2),
-    writable    : !(bitmap & 4),
-    value       : value
-  };
-};
-
-/***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global    = __webpack_require__(0)
-  , hide      = __webpack_require__(7)
-  , has       = __webpack_require__(24)
-  , SRC       = __webpack_require__(8)('src')
-  , TO_STRING = 'toString'
-  , $toString = Function[TO_STRING]
-  , TPL       = ('' + $toString).split(TO_STRING);
-
-__webpack_require__(2).inspectSource = function(it){
-  return $toString.call(it);
-};
-
-(module.exports = function(O, key, val, safe){
-  var isFunction = typeof val == 'function';
-  if(isFunction)has(val, 'name') || hide(val, 'name', key);
-  if(O[key] === val)return;
-  if(isFunction)has(val, SRC) || hide(val, SRC, O[key] ? '' + O[key] : TPL.join(String(key)));
-  if(O === global){
-    O[key] = val;
-  } else {
-    if(!safe){
-      delete O[key];
-      hide(O, key, val);
-    } else {
-      if(O[key])O[key] = val;
-      else hide(O, key, val);
-    }
-  }
-// add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
-})(Function.prototype, TO_STRING, function toString(){
-  return typeof this == 'function' && this[SRC] || $toString.call(this);
-});
-
-/***/ }),
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__(0)
-  , SHARED = '__core-js_shared__'
-  , store  = global[SHARED] || (global[SHARED] = {});
-module.exports = function(key){
-  return store[key] || (store[key] = {});
-};
-
-/***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var fails = __webpack_require__(4);
-
-module.exports = function(method, arg){
-  return !!method && fails(function(){
-    arg ? method.call(null, function(){}, 1) : method.call(null);
-  });
-};
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports) {
-
-// 7.1.4 ToInteger
-var ceil  = Math.ceil
-  , floor = Math.floor;
-module.exports = function(it){
-  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
-};
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.1.15 ToLength
-var toInteger = __webpack_require__(33)
-  , min       = Math.min;
-module.exports = function(it){
-  return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
-};
-
-/***/ }),
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.1.13 ToObject(argument)
-var defined = __webpack_require__(21);
-module.exports = function(it){
-  return Object(defined(it));
-};
-
-/***/ }),
-/* 36 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = __webpack_require__(1);
-// instead of the ES6 spec version, we didn't implement @@toPrimitive case
-// and the second argument - flag - preferred type is a string
-module.exports = function(it, S){
-  if(!isObject(it))return it;
-  var fn, val;
-  if(S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
-  if(typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it)))return val;
-  if(!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
-  throw TypeError("Can't convert object to primitive value");
-};
-
-/***/ }),
-/* 37 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var store      = __webpack_require__(31)('wks')
-  , uid        = __webpack_require__(8)
-  , Symbol     = __webpack_require__(0).Symbol
-  , USE_SYMBOL = typeof Symbol == 'function';
-
-var $exports = module.exports = function(name){
-  return store[name] || (store[name] =
-    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : uid)('Symbol.' + name));
-};
-
-$exports.store = store;
-
-/***/ }),
-/* 38 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $export  = __webpack_require__(23)
-  , $forEach = __webpack_require__(18)(0)
-  , STRICT   = __webpack_require__(32)([].forEach, true);
-
-$export($export.P + $export.F * !STRICT, 'Array', {
-  // 22.1.3.10 / 15.4.4.18 Array.prototype.forEach(callbackfn [, thisArg])
-  forEach: function forEach(callbackfn /* , thisArg */){
-    return $forEach(this, callbackfn, arguments[1]);
-  }
-});
-
-/***/ }),
-/* 39 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-__webpack_require__(14);
-
-var App = __webpack_require__(71).default;
-var Pjax = __webpack_require__(52);
-
-console.log("Document initialized:", window.location.href);
-
-document.addEventListener("pjax:send", function () {
-  console.log("Event: pjax:send", arguments);
-});
-
-document.addEventListener("pjax:complete", function () {
-  console.log("Event: pjax:complete", arguments);
-});
-
-document.addEventListener("pjax:error", function () {
-  console.log("Event: pjax:error", arguments);
-});
-
-document.addEventListener("pjax:success", function () {
-  console.log("Event: pjax:success", arguments);
-  new App();
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-  var pjax = new Pjax({
-    elements: 'a',
-    selectors: ['title', '#content']
-  });
-  console.log("Pjax initialized.", pjax);
-});
-
-/***/ }),
-/* 40 */,
-/* 41 */,
-/* 42 */,
-/* 43 */,
-/* 44 */,
-/* 45 */,
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */
-/***/ (function(module, exports) {
-
-/* global HTMLCollection: true */
-
-module.exports = function(els, fn, context) {
-  if (els instanceof HTMLCollection || els instanceof NodeList || els instanceof Array) {
-    return Array.prototype.forEach.call(els, fn, context)
-  }
-  // assume simple dom element
-  return fn.call(context, els)
-}
-
-
-/***/ }),
-/* 50 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var forEachEls = __webpack_require__(49)
-
-module.exports = function(els, events, listener, useCapture) {
-  events = (typeof events === "string" ? events.split(" ") : events)
-
-  events.forEach(function(e) {
-    forEachEls(els, function(el) {
-      el.addEventListener(e, listener, useCapture)
-    })
-  })
-}
-
-
-/***/ }),
-/* 51 */
-/***/ (function(module, exports) {
-
-module.exports = function(obj) {
-  if (null === obj || "object" != typeof obj) {
-    return obj
-  }
-  var copy = obj.constructor()
-  for (var attr in obj) {
-    if (obj.hasOwnProperty(attr)) {
-      copy[attr] = obj[attr]
-    }
-  }
-  return copy
-}
-
-
-/***/ }),
-/* 52 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var clone = __webpack_require__(51)
-var executeScripts = __webpack_require__(55)
-
-var forEachEls = __webpack_require__(49)
-
-var newUid = __webpack_require__(70)
-
-var on = __webpack_require__(50)
-// var off = require("./lib/events/on.js")
-var trigger = __webpack_require__(54)
-
-
-var Pjax = function(options) {
-    this.firstrun = true
-
-    var parseOptions = __webpack_require__(64);
-    parseOptions.apply(this,[options])
-    this.log("Pjax options", this.options)
-
-    this.maxUid = this.lastUid = newUid()
-
-    this.parseDOM(document)
-
-    on(window, "popstate", function(st) {
-      if (st.state) {
-        var opt = clone(this.options)
-        opt.url = st.state.url
-        opt.title = st.state.title
-        opt.history = false
-
-        if (st.state.uid < this.lastUid) {
-          opt.backward = true
-        }
-        else {
-          opt.forward = true
-        }
-        this.lastUid = st.state.uid
-
-        // @todo implement history cache here, based on uid
-        this.loadUrl(st.state.url, opt)
-      }
-    }.bind(this))
-  }
-
-Pjax.prototype = {
-  log: __webpack_require__(61),
-
-  getElements: __webpack_require__(60),
-
-  parseDOM: __webpack_require__(62),
-
-  refresh: __webpack_require__(65),
-
-  reload: __webpack_require__(66),
-
-  attachLink: __webpack_require__(59),
-
-  forEachSelectors: function(cb, context, DOMcontext) {
-    return __webpack_require__(56).bind(this)(this.options.selectors, cb, context, DOMcontext)
-  },
-
-  switchSelectors: function(selectors, fromEl, toEl, options) {
-    return __webpack_require__(68).bind(this)(this.options.switches, this.options.switchesOptions, selectors, fromEl, toEl, options)
-  },
-
-  // too much problem with the code below
-  // + it’s too dangerous
-//   switchFallback: function(fromEl, toEl) {
-//     this.switchSelectors(["head", "body"], fromEl, toEl)
-//     // execute script when DOM is like it should be
-//     Pjax.executeScripts(document.querySelector("head"))
-//     Pjax.executeScripts(document.querySelector("body"))
-//   }
-
-  latestChance: function(href) {
-    window.location = href
-  },
-
-  onSwitch: function() {
-    trigger(window, "resize scroll")
-  },
-
-  loadContent: function(html, options) {
-    var tmpEl = document.implementation.createHTMLDocument()
-
-    // parse HTML attributes to copy them
-    // since we are forced to use documentElement.innerHTML (outerHTML can't be used for <html>)
-    var htmlRegex = /<html[^>]+>/gi
-    var htmlAttribsRegex = /\s?[a-z:]+(?:\=(?:\'|\")[^\'\">]+(?:\'|\"))*/gi
-    var matches = html.match(htmlRegex)
-    if (matches && matches.length) {
-      matches = matches[0].match(htmlAttribsRegex)
-      if (matches.length) {
-        matches.shift()
-        matches.forEach(function(htmlAttrib) {
-          var attr = htmlAttrib.trim().split("=")
-          if (attr.length === 1) {
-            tmpEl.documentElement.setAttribute(attr[0], true)
-          }
-          else {
-            tmpEl.documentElement.setAttribute(attr[0], attr[1].slice(1, -1))
-          }
-        })
-      }
-    }
-
-    tmpEl.documentElement.innerHTML = html
-    this.log("load content", tmpEl.documentElement.attributes, tmpEl.documentElement.innerHTML.length)
-
-    // Clear out any focused controls before inserting new page contents.
-    // we clear focus on non form elements
-    if (document.activeElement && !document.activeElement.value) {
-      try {
-        document.activeElement.blur()
-      } catch (e) { }
-    }
-
-    // try {
-    this.switchSelectors(this.options.selectors, tmpEl, document, options)
-
-    // FF bug: Won’t autofocus fields that are inserted via JS.
-    // This behavior is incorrect. So if theres no current focus, autofocus
-    // the last field.
-    //
-    // http://www.w3.org/html/wg/drafts/html/master/forms.html
-    var autofocusEl = Array.prototype.slice.call(document.querySelectorAll("[autofocus]")).pop()
-    if (autofocusEl && document.activeElement !== autofocusEl) {
-      autofocusEl.focus();
-    }
-
-    // execute scripts when DOM have been completely updated
-    this.options.selectors.forEach(function(selector) {
-      forEachEls(document.querySelectorAll(selector), function(el) {
-        executeScripts(el)
-      })
-    })
-    // }
-    // catch(e) {
-    //   if (this.options.debug) {
-    //     this.log("Pjax switch fail: ", e)
-    //   }
-    //   this.switchFallback(tmpEl, document)
-    // }
-  },
-
-  doRequest: __webpack_require__(67),
-
-  loadUrl: function(href, options) {
-    this.log("load href", href, options)
-
-    trigger(document, "pjax:send", options);
-
-    // Do the request
-    this.doRequest(href, function(html) {
-      // Fail if unable to load HTML via AJAX
-      if (html === false) {
-        trigger(document,"pjax:complete pjax:error", options)
-
-        return
-      }
-
-      // Clear out any focused controls before inserting new page contents.
-      document.activeElement.blur()
-
-      try {
-        this.loadContent(html, options)
-      }
-      catch (e) {
-        if (!this.options.debug) {
-          if (console && console.error) {
-            console.error("Pjax switch fail: ", e)
-          }
-          this.latestChance(href)
-          return
-        }
-        else {
-          throw e
-        }
-      }
-
-      if (options.history) {
-        if (this.firstrun) {
-          this.lastUid = this.maxUid = newUid()
-          this.firstrun = false
-          window.history.replaceState({
-            url: window.location.href,
-            title: document.title,
-            uid: this.maxUid
-          },
-          document.title)
-        }
-
-        // Update browser history
-        this.lastUid = this.maxUid = newUid()
-        window.history.pushState({
-          url: href,
-          title: options.title,
-          uid: this.maxUid
-        },
-          options.title,
-          href)
-      }
-
-      this.forEachSelectors(function(el) {
-        this.parseDOM(el)
-      }, this)
-
-      // Fire Events
-      trigger(document,"pjax:complete pjax:success", options)
-
-      options.analytics()
-
-      // Scroll page to top on new page load
-      if (options.scrollTo !== false) {
-        if (options.scrollTo.length > 1) {
-          window.scrollTo(options.scrollTo[0], options.scrollTo[1])
-        }
-        else {
-          window.scrollTo(0, options.scrollTo)
-        }
-      }
-    }.bind(this))
-  }
-}
-
-Pjax.isSupported = __webpack_require__(57);
-
-//arguably could do `if( require("./lib/is-supported.js")()) {` but that might be a little to simple
-if (Pjax.isSupported()) {
-  module.exports = Pjax
-}
-// if there isn’t required browser functions, returning stupid api
-else {
-  var stupidPjax = function() {}
-  for (var key in Pjax.prototype) {
-    if (Pjax.prototype.hasOwnProperty(key) && typeof Pjax.prototype[key] === "function") {
-      stupidPjax[key] = stupidPjax
-    }
-  }
-
-  module.exports = stupidPjax
-}
-
-
-/***/ }),
-/* 53 */
+/* 44 */
 /***/ (function(module, exports) {
 
 module.exports = function(el) {
@@ -2249,10 +2364,10 @@ module.exports = function(el) {
 
 
 /***/ }),
-/* 54 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var forEachEls = __webpack_require__(49)
+var forEachEls = __webpack_require__(0)
 
 module.exports = function(els, events, opts) {
   events = (typeof events === "string" ? events.split(" ") : events)
@@ -2286,11 +2401,11 @@ module.exports = function(els, events, opts) {
 
 
 /***/ }),
-/* 55 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var forEachEls = __webpack_require__(49)
-var evalScript = __webpack_require__(53)
+var forEachEls = __webpack_require__(0)
+var evalScript = __webpack_require__(44)
 // Finds and executes scripts (used for newly added elements)
 // Needed since innerHTML does not run scripts
 module.exports = function(el) {
@@ -2307,10 +2422,10 @@ module.exports = function(el) {
 
 
 /***/ }),
-/* 56 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var forEachEls = __webpack_require__(49)
+var forEachEls = __webpack_require__(0)
 
 module.exports = function(selectors, cb, context, DOMcontext) {
   DOMcontext = DOMcontext || document
@@ -2321,7 +2436,7 @@ module.exports = function(selectors, cb, context, DOMcontext) {
 
 
 /***/ }),
-/* 57 */
+/* 48 */
 /***/ (function(module, exports) {
 
 module.exports = function() {
@@ -2335,7 +2450,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 58 */
+/* 49 */
 /***/ (function(module, exports) {
 
 if (!Function.prototype.bind) {
@@ -2361,13 +2476,13 @@ if (!Function.prototype.bind) {
 
 
 /***/ }),
-/* 59 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(58)
+__webpack_require__(49)
 
-var on = __webpack_require__(50)
-var clone = __webpack_require__(51)
+var on = __webpack_require__(6)
+var clone = __webpack_require__(11)
 
 var attrClick = "data-pjax-click-state"
 var attrKey = "data-pjax-keyup-state"
@@ -2456,7 +2571,7 @@ module.exports = function(el) {
 
 
 /***/ }),
-/* 60 */
+/* 51 */
 /***/ (function(module, exports) {
 
 module.exports = function(el) {
@@ -2465,7 +2580,7 @@ module.exports = function(el) {
 
 
 /***/ }),
-/* 61 */
+/* 52 */
 /***/ (function(module, exports) {
 
 module.exports = function() {
@@ -2482,12 +2597,12 @@ module.exports = function() {
 
 
 /***/ }),
-/* 62 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var forEachEls = __webpack_require__(49)
+var forEachEls = __webpack_require__(0)
 
-var parseElement = __webpack_require__(63)
+var parseElement = __webpack_require__(54)
 
 module.exports = function(el) {
   forEachEls(this.getElements(el), parseElement, this)
@@ -2495,7 +2610,7 @@ module.exports = function(el) {
 
 
 /***/ }),
-/* 63 */
+/* 54 */
 /***/ (function(module, exports) {
 
 module.exports = function(el) {
@@ -2518,7 +2633,7 @@ module.exports = function(el) {
 
 
 /***/ }),
-/* 64 */
+/* 55 */
 /***/ (function(module, exports) {
 
 /* global _gaq: true, ga: true */
@@ -2561,7 +2676,7 @@ module.exports = function(options){
 }
 
 /***/ }),
-/* 65 */
+/* 56 */
 /***/ (function(module, exports) {
 
 module.exports = function(el) {
@@ -2570,7 +2685,7 @@ module.exports = function(el) {
 
 
 /***/ }),
-/* 66 */
+/* 57 */
 /***/ (function(module, exports) {
 
 module.exports = function() {
@@ -2579,7 +2694,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 67 */
+/* 58 */
 /***/ (function(module, exports) {
 
 module.exports = function(location, callback) {
@@ -2609,12 +2724,12 @@ module.exports = function(location, callback) {
 
 
 /***/ }),
-/* 68 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var forEachEls = __webpack_require__(49)
+var forEachEls = __webpack_require__(0)
 
-var defaultSwitches = __webpack_require__(69)
+var defaultSwitches = __webpack_require__(60)
 
 module.exports = function(switches, switchesOptions, selectors, fromEl, toEl, options) {
   selectors.forEach(function(selector) {
@@ -2650,10 +2765,10 @@ module.exports = function(switches, switchesOptions, selectors, fromEl, toEl, op
 
 
 /***/ }),
-/* 69 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var on = __webpack_require__(50)
+var on = __webpack_require__(6)
 // var off = require("./lib/events/on.js")
 // var trigger = require("./lib/events/trigger.js")
 
@@ -2771,7 +2886,7 @@ module.exports = {
 
 
 /***/ }),
-/* 70 */
+/* 61 */
 /***/ (function(module, exports) {
 
 module.exports = (function() {
@@ -2785,167 +2900,43 @@ module.exports = (function() {
 
 
 /***/ }),
-/* 71 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _fastclick = __webpack_require__(15);
-
-var _fastclick2 = _interopRequireDefault(_fastclick);
-
-var _scroll = __webpack_require__(10);
-
-var _tabs = __webpack_require__(11);
-
-var _tabs2 = _interopRequireDefault(_tabs);
-
-var _affix = __webpack_require__(9);
-
-var _affix2 = _interopRequireDefault(_affix);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-__webpack_require__(12);
 __webpack_require__(13);
 
-var App = function () {
-  function App() {
-    _classCallCheck(this, App);
+var App = __webpack_require__(12).default;
+var Pjax = __webpack_require__(14);
 
-    window.$ = jQuery;
-    this.touch = false;
-    this._initToggles();
-    this._initFastClick();
+console.log("Document initialized:", window.location.href);
 
-    this.affix = new _affix2.default();
+document.addEventListener("pjax:send", function () {
+  console.log("Event: pjax:send", arguments);
+});
 
-    var anchorLinks = document.querySelectorAll('a[href="#"]');
-    if (anchorLinks.length) {
-      Array.prototype.forEach.call(anchorLinks, function (a) {
-        a.addEventListener('click', function (e) {
-          return e.preventDefault();
-        });
-      });
-    }
+document.addEventListener("pjax:complete", function () {
+  console.log("Event: pjax:complete", arguments);
+});
 
-    this.cards = document.querySelector('.mhr-cards-container');
-    this.hero = document.querySelector('.hero');
-    this.main = document.querySelector('main');
-    this.nav = document.querySelector('.primary-nav');
-    this.scrollIndicator = document.querySelector('.scroll-indicator');
-    this.navToggle = document.querySelector('[data-nav-toggle]');
+document.addEventListener("pjax:error", function () {
+  console.log("Event: pjax:error", arguments);
+});
 
-    if (this.hero) {
-      // Resize
-      this._handleResize();
-      this._handleResize = this._handleResize.bind(this);
-      window.onresize = this._handleResize;
+document.addEventListener("pjax:success", function () {
+  console.log("Event: pjax:success", arguments);
+  new App();
+});
 
-      // Scroll
-      this._handleScroll();
-      this._handleScroll = this._handleScroll.bind(this);
-      window.onscroll = this._handleScroll;
-      this._scrollWindowToTop = this._scrollWindowToTop.bind(this);
-    }
-
-    // Test for Touch Events
-    var touch = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
-
-    // Navigation
-    var event = touch ? 'touchstart' : 'click';
-    if (this.navToggle) {
-      this.navToggle.addEventListener(event, this._toggleMenu.bind(this));
-    }
-
-    this.tabs = new _tabs2.default(event);
-
-    if (touch) {
-      document.body.classList.add('touch');
-      document.body.classList.remove('no-touch');
-    }
-  }
-
-  _createClass(App, [{
-    key: '_toggleMenu',
-    value: function _toggleMenu() {
-      if (this.nav.classList.contains('active')) {
-        this.nav.classList.remove('active');
-        this.navToggle.classList.remove('fa-close');
-        this.navToggle.classList.add('fa-bars');
-      } else {
-        this.nav.classList.add('active');
-        this.navToggle.classList.remove('fa-bars');
-        this.navToggle.classList.add('fa-close');
-      }
-    }
-  }, {
-    key: '_handleResize',
-    value: function _handleResize() {
-      this.heroDimensions = this.hero.getBoundingClientRect();
-    }
-  }, {
-    key: '_handleScroll',
-    value: function _handleScroll() {
-      if (window.scrollY > (this.heroDimensions.height || window.height)) {
-        this.scrollIndicator.classList.add('back-to-top');
-        this.nav.classList.add('pin-bottom');
-        this.scrollIndicator.addEventListener('click', this._scrollWindowToTop);
-      } else {
-        this.scrollIndicator.classList.remove('back-to-top');
-        this.nav.classList.remove('pin-bottom');
-        this.scrollIndicator.removeEventListener('click', this._scrollWindowToTop);
-      }
-    }
-  }, {
-    key: '_scrollWindowToTop',
-    value: function _scrollWindowToTop() {
-      (0, _scroll.scrollToY)(0, 300, 'easeInOutQuint');
-    }
-  }, {
-    key: '_initToggles',
-    value: function _initToggles() {
-      var toggleGroups = document.querySelectorAll('.toggle-group');
-      if (!toggleGroups.length) {
-        return;
-      }
-      Array.prototype.forEach.call(toggleGroups, function (tg) {
-        tg.querySelector('.toggle-group__header').addEventListener('click', function () {
-          if (tg.classList.contains('open')) {
-            tg.classList.remove('open');
-          } else {
-            Array.prototype.forEach.call(toggleGroups, function (t) {
-              return t.classList.remove('open');
-            });
-            tg.classList.add('open');
-          }
-        });
-      });
-    }
-  }, {
-    key: '_initFastClick',
-    value: function _initFastClick() {
-      if ('addEventListener' in document) {
-        document.addEventListener('DOMContentLoaded', function () {
-          _fastclick2.default.attach(document.body);
-        }, false);
-      }
-    }
-  }]);
-
-  return App;
-}();
-
-exports.default = App;
+document.addEventListener("DOMContentLoaded", function () {
+  var pjax = new Pjax({
+    elements: 'a:not([data-open-window])',
+    selectors: ['title', '#content']
+  });
+  new App();
+});
 
 /***/ })
 /******/ ]);

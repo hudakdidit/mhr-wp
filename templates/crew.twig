@@ -1,0 +1,23 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <div class="content-wrapper">
+      <section class="post-type-page">
+        <h1>Crew</h1>
+        {% for item in crew %}
+            <div class="Person">
+            {% for person in item %}
+                <div class="Person-portrait">
+                    <img src="{{TimberImage(person.portrait).src('medium')}}" alt="Portrait of {{person.post_title}}" />
+                </div>
+                <div class="Person-info">
+                    <h2>{{person.post_title}}</h2>
+                    <h3>{{person.title}}</h3>
+                    {{person.post_content|raw}}
+                </div>
+            {% endfor %}
+            </div>
+        {% endfor %}
+      </section>
+    </div>
+{% endblock %}

@@ -22,6 +22,8 @@ class StarterSite extends TimberSite {
 		add_action( 'init', array( $this, 'register_options' ) );
 		add_action( 'init', array( $this, 'register_post_types' ) );
 		add_action( 'init', array( $this, 'register_taxonomies' ) );
+		add_action( 'init', array( $this, 'custom_routes' ) );
+		add_action( 'template_redirect', array( $this, 'redirects' ) );
 
 		add_image_size( 'restaurant_gallery', 800, 600 );
 		add_image_size( 'background_photo', 1024, 1024 );
@@ -78,6 +80,14 @@ class StarterSite extends TimberSite {
 		//this is where you can register custom taxonomies
 	}
 
+	function custom_routes() {
+		add_rewrite_endpoint( 'restaurants/tilth/menus', EP_ROOT );
+	}
+
+	function redirects() {
+		
+	}
+
 	function register_menus() {
     register_nav_menus(
       array(
@@ -100,9 +110,11 @@ class StarterSite extends TimberSite {
 		$context['restaurants'] = get_field('restaurants', 'option');
 		$context['logo'] = get_field('logo', 'option');
 		$context['site'] = $this;
+		$context['main_restaurant_categories'] = get_field('main_restaurant_categories', 'option');
 
 		global $post;
-		$context['page_slug'] = $post_slug=$post->post_name;
+		
+		$context['page_slug'] = $post ? $post->post_name : "";
 		return $context;
 	}
 
@@ -182,7 +194,7 @@ function get_attachment_url($id) {
 }
 
 function get_post_url_by_id($id) {
-	return get_permalink($id);
+	return wp_make_link_relative(get_permalink($id));
 }
 
 function get_post_thumbnail($id, $size = 'post-thumbnail') {

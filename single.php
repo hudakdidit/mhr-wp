@@ -16,16 +16,39 @@ $children = Timber::get_posts("post_type=restaurant&post_parent=$post->ID&posts_
 $siblings = Timber::get_posts("post_type=restaurant&post_parent=$post->post_parent&exclude=>$post->ID");
 $context['submenu'] = $children ? $children : $siblings;
 
-if ($post->post_parent) {
-	$context['parent'] = get_post($post->post_parent);
-  $context['parent_title'] = get_the_title($post->post_parent);
-  $context['parent_link'] = get_permalink($post->post_parent);
+$restaurantCategories = $context['main_restaurant_categories'];
+$isMenu = $post->post_type == "menu";
+$context['is_menu'] = $isMenu;
+$restaurant = null;
+if ($isMenu) {
+	$restaurant = getRestaurant($post, $restaurantCategories);
 }
 
-$context['menus'] = get_field('menus');
-$context['events'] = get_field('events_listing');
+$parent = null;
+if ($post->post_parent || $isMenu) {
+	$parent = $isMenu ? $restaurant : $post->post_parent;
+	$context['parent'] = get_post($parent);
+	$context['parent_title'] = get_the_title($parent);
+	$context['parent_link'] = get_permalink($parent);
+}
 
-print_r(get_field('event_listing'));
+
+
+function getRestaurant($post, $categories) {
+	foreach($categories as $cat) {
+		if (in_category($cat, $post)) {
+			return get_posts(array(
+				"category" => $cat,
+				"post_type" => "restaurant"
+			))[0];
+		}
+	}
+}
+
+$post_id = $isMenu ? $parent->ID : $post->ID;
+$context['menus'] = get_field('menus', $post_id);
+$context['tastingmenus'] = get_field('tasting_menus', $post_id);
+$context['events'] = get_field('events_listing', $post_id);
 
 if ( post_password_required( $post->ID ) ) {
 	Timber::render( 'single-password.twig', $context );

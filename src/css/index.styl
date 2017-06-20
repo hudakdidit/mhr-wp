@@ -51,18 +51,22 @@ link-style()
   padding 0
   line-height 1
 
-html.home,
-body.home,
-#content
+html,
+body,
+#content.home
   height 100%
 
 body
   font-family 'Quicksand', sans-serif
   box-sizing border-box
   background $secondary
+
+body,
+#content
   background-repeat no-repeat
   background-size cover
   background-position center
+  background-attachment fixed
 
 
   &.no-touch
@@ -91,3 +95,10 @@ pre
 
 strong
   color $dark
+
+i > sup,
+em > sup
+  vertical-align middle
+  opacity .8
+  display inline-block
+  margin 0 4px

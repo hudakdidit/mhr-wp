@@ -20,7 +20,9 @@ export default class Tabs {
       });
     });
     const activeTab = window.location.search ? window.location.search.split('=').pop() : 0;
-    this.setActiveTab(activeTab);
+    if (!$('.tabs-header a.active').length) {
+      this.setActiveTab(activeTab);
+    }
   }
 
   resetTabs() {
@@ -30,6 +32,7 @@ export default class Tabs {
 
   setActiveTab(index = 0) {
     const { history } = window;
+
     if (index !== this.activeTab) {
       this.resetTabs();
       this.$tabHeaders.eq(index).addClass('active');

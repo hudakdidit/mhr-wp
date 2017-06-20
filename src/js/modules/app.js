@@ -1,7 +1,8 @@
 import FastClick from 'fastclick';
 import { scrollToY } from './scroll';
 import Tabs from './tabs';
-import Affix from './affix';
+import Window from './window';
+// import Affix from './affix';
 
 require('classlist-polyfill');
 require('core-js/fn/array/for-each');
@@ -12,8 +13,9 @@ export default class App {
     this.touch = false;
     this._initToggles();
     this._initFastClick();
+    Window.init();
 
-    this.affix = new Affix();
+    // this.affix = new Affix();
 
     const anchorLinks = document.querySelectorAll('a[href="#"]');
     if (anchorLinks.length) {

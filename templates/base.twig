@@ -28,7 +28,7 @@
 	{% set background_image = parent.background_image %}
 {% endif %}
 
-	<body class="{{body_class}} no-touch" style="{% if background_image %}background-image: url({{TimberImage(background_image)}}){% endif %}" data-template="base.twig">
+	<body class="{{body_class}} no-touch" data-template="base.twig">
 		
 		{% block header %}
 			<div class="navigation">
@@ -38,7 +38,7 @@
 			</div>
 		{% endblock %}
 
-		<section id="content">
+		<section id="content" class="{{body_class}}" style="{% if background_image %}background-image: url({{TimberImage(background_image)}}){% endif %}">
 			{% if title %}<h1>{{title}}</h1>{% endif %}
 				{% block content %}
 					Sorry, no content

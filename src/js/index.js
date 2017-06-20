@@ -24,8 +24,8 @@ document.addEventListener("pjax:success", function() {
 
 document.addEventListener("DOMContentLoaded", function() {
   var pjax = new Pjax({
-    elements: 'a',
+    elements: 'a:not([data-open-window])',
     selectors: ['title', '#content']
   });
-  console.log("Pjax initialized.", pjax)
+  new App();
 });
