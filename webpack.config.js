@@ -50,7 +50,8 @@ module.exports = {
         new BrowserSyncPlugin({
             proxy: package.localUrl,
             files: ['./static', './templates'],
-            open: false
+            open: false,
+            tunnel: "mariah"
         }),
         new webpack.LoaderOptionsPlugin({
             options: {

@@ -1,13 +1,26 @@
 footer
-  background-color rgba(white, .9)
-  padding 40px 40px 100px 20px
+  // background-color rgba(white, .9)
   position relative
   display inline-flex
-  margin 20px
-  border-radius 4px
-
-  +above(tablet)
-    padding 100px 70px 150px 50px
+  // margin 20px
+  // border-radius 4px
+  background rgba($primary, .5)
+  width 100%
+  padding 20px
+  
+  
+  .footer-wrap
+    background $secondary
+    width 100%
+    border-radius 3px
+    padding 40px 40px 100px 20px
+    display flex
+    +above(tablet)
+      padding 100px 70px 100px 50px
+  
+  .copyright
+    margin-left auto
+    margin-top auto
 
   .mhr-card
     flex none

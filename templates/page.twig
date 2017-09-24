@@ -18,6 +18,9 @@
 					</nav>
 				{% endif %}
 				<div class="article-body">
+					{% if post.embed %}
+						<iframe src="{{post.embed}}" class="Embed"/>
+					{% endif %}
 					{% set community = post.get_field('food_advocacy_item')%}
 					{% if community %}
 					  <div class="page-header-row">

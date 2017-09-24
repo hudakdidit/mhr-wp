@@ -1,7 +1,7 @@
 {% if menu %}
 	<ul class="{% if dropdown %}dropdown__items {% endif %}">
 	{% for item in menu %}
-		<li class="{{item.classes | join(' ')}}">
+		<li class="{{item.classes | join(' ')}} nav-link--{{item.post_name}}">
 			<a href="{{item.get_link}}"><span>{{item.title}}</span></a>
 			{% include "menu.twig" with {'menu': item.get_children} %}
 		</li>

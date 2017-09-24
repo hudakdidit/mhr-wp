@@ -11,6 +11,10 @@
     padding 20px 10px
     margin 20px 20px 200px
 
+.mhr-card__content
+  +above(tablet)
+    min-height 250px
+
 .mhr-card
   margin 40px 10px
   max-width 600px
@@ -22,6 +26,14 @@
 
   +above(desktop)
     flex 1 0 (100 / 4)%
+
+  h2, h3
+    font-weight 300
+    color $dark
+  
+  h2
+    margin-bottom .5rem
+    font-size 1.75rem
 
 p
   line-height 1.5
@@ -104,6 +116,7 @@ p
   +above(tablet)
     justify-content space-between
     height auto
+    padding-right 20px
 
     .mhr-card__info
       flex 0 0 80%
@@ -184,15 +197,12 @@ p
     width 150px
     height 150px
 
-.mhr-card__content
+
   // background rgba(white, .8)
   // padding 20px 10px
   // overflow hidden
   color $dark
   position relative
-
-  +above(desktop)
-    height 250px
 
   & *
     position relative

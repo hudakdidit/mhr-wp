@@ -1,7 +1,7 @@
 import FastClick from 'fastclick';
 import { scrollToY } from './scroll';
 import Tabs from './tabs';
-import Window from './window';
+// import Window from './window';
 // import Affix from './affix';
 
 require('classlist-polyfill');
@@ -13,7 +13,7 @@ export default class App {
     this.touch = false;
     this._initToggles();
     this._initFastClick();
-    Window.init();
+    // Window.init();
 
     // this.affix = new Affix();
 

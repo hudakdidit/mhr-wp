@@ -86,10 +86,10 @@ $nav-height = 84px
     margin 20px
     border-radius 4px
     padding 20px
-    position absolute
+    position relative
     width calc(100% - 40px)
     box-shadow none
-    background rgba(white, .7)
+    background none
 
   a
     link-style()
@@ -178,6 +178,18 @@ $nav-height = 84px
     +above(desktop)
       display inline-block
       width auto
+  
+  a[href*="reservations"]
+    background rgba($primary, .7)
+    color white
+    padding 10px
+    border-radius 3px
+
+    &:hover
+      background rgba($primary, .9)
+
+    span::after
+      background rgba(white, .5)
 
   .nav-link
     border-top 1px solid rgba($dark, .3)

@@ -1,21 +1,38 @@
+.homepage-panels 
+  height 100%
+  display flex
+  flex-wrap wrap
+
+.image-panel-wrapper
+  height 80vh
+  width 100%
+  background $secondary
+  padding 20px
+  &:nth-child(even)
+    padding-left 0
+  &:nth-child(1),
+  &:nth-child(2)
+    padding-bottom 0
+    
+  +above(tablet)
+    width 50%
 .image-panel
   width 100%
-  height auto
+  height 100%
   overflow visible
   background-size cover
-  background-position center
+  background-position top left
   background-repeat no-repeat
   display flex
   justify-content center
   align-items center
   position relative
   z-index 10
+  border-radius 3px
 
   &.reservations
     z-index 5
 
-  +above(tablet)
-    height 80%
   .no-touch &
     background-attachment fixed
 

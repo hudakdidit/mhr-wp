@@ -2,7 +2,7 @@ ease-out-quart = cubic-bezier(0.165, 0.84, 0.44, 1)
 
 $dark = #5B4438
 $primary = #7B8E35
-$secondary = #f2efef
+$secondary = #fcf4ef
 $tilth = #4F5823
 
 // Mixins
@@ -30,7 +30,7 @@ link-style()
       height 1px
       width 0%
       transition width 130ms ease-out-quart
-      background $dark
+      background rgba($dark, .5)
 
   .no-touch &:hover span::after
     width 100%
@@ -53,7 +53,6 @@ link-style()
 
 html,
 body,
-#content.home
   height 100%
 
 body
@@ -66,7 +65,7 @@ body,
   background-repeat no-repeat
   background-size cover
   background-position center
-  background-attachment fixed
+  // background-attachment fixed
 
 
   &.no-touch
