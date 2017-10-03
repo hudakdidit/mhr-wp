@@ -1,19 +1,23 @@
 <div class="restaurant-info__container">
 
-<h3>Reservations and Information</h3>
+{% set post_url = restaurant.ID | post_url_by_id %}
 
-<a itemprop="telephone" href="tel:{{restaurant.telephone}}" class="telephone-link">
+<a href="{{post_url}}"
+   class="logo logo--{{restaurant.post_name}} logo--mini"
+>
+    <img src="{{TimberImage(restaurant.logo).src}}" alt="{{restaurant.post_title}} Logo" />
+</a>
+
+<a itemprop="telephone" href="tel:{{restaurant.telephone}}" class="">
   <span class="fa fa-phone"></span>
   <span>{{restaurant.telephone}}</span>
 </a>
 
 {%if restaurant.opentable_reservation_url %}
-<a href="{{restaurant.opentable_reservation_url}}" class="reservation-link"><span class="fa fa-calendar"></span>Reserve with Open Table</a>
+<a href="{{restaurant.opentable_reservation_url}}" class=""><span class="fa fa-calendar"></span>Reserve with Open Table</a>
 {% endif %}
 
 {% if restaurant.street_address %}
-
-<h3>Location</h3>
 
 <div class="address" itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress">
   <span itemprop="streetAddress">{{restaurant.street_address}}</span><br>
@@ -25,10 +29,5 @@
 {% endif %}
 
 <a href="{{restaurant.map_link}}" class="button">Open Map</a>
-<hr/>
-
-<h3>Hours</h3>
-
-{{restaurant.hours}}
 
 </div>

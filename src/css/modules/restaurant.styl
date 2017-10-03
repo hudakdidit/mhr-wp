@@ -1,5 +1,7 @@
 .post-type--restaurant,
-.post-type--menu 
+.post-type--event,
+.post-type--menu,
+.post-type--gift_certificates
   background rgba($secondary, .9)
   padding 20px
   border-radius 3px
@@ -8,9 +10,11 @@
     display flex
   +above(desktop)
     padding 40px 60px
+    max-width $max-content-width
+    margin auto
 
   .article-h1
-    margin-bottom 20px
+    margin 20px 0
   
   .article-body h4
     margin 1rem 0

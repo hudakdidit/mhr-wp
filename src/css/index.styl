@@ -5,6 +5,8 @@ $primary = #7B8E35
 $secondary = #fcf4ef
 $tilth = #4F5823
 
+$max-content-width = 1100px
+
 // Mixins
 tablet = 700px
 nav = 1120px
@@ -65,7 +67,9 @@ body,
   background-repeat no-repeat
   background-size cover
   background-position center
-  // background-attachment fixed
+
+  +above(desktop)
+    background-attachment fixed
 
 
   &.no-touch

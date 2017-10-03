@@ -5,8 +5,9 @@
 
 {% block content %}
 	<div class="content-wrapper">
-		<article class="post-type--{{post.post_type}} {% if post.post_type == 'restaurant' and parent %}restaurant-sub-page{% endif %}" id="post-{{post.ID}}" data-affix-container>
-			{% if post.post_type == 'restaurant' or is_menu %}
+		<article class="post-type--{{post.post_type}} {% if post.post_type == 'restaurant' or hasParentRestaurantPage %}restaurant-sub-page{% endif %}" id="post-{{post.ID}}" data-affix-container>
+			
+			{% if post.post_type == 'restaurant' or hasParentRestaurantPage %}
 				
 				<div class="restaurant-info">
 					{% if parent_title %}
@@ -21,6 +22,8 @@
 					{% else %}
 						{% set restaurantInfo = post %}
 					{% endif %}
+
+					{# {{ restaurantInfo|print_r}} #}
 
 					<div class="tabs-group" data-affix>
 						<div class="tabs-header">
@@ -75,7 +78,7 @@
 			{% if parent %}
 			  <section class="restaurant-page" data-ajax-target="menu">
 					<a href="{{parent_link}}" class="logo logo--{{parent.post_name}} restaurant-page-mobile-logo"><img src="{{TimberImage(parent.logo).src}}" alt="{{parent.title}} Logo" /></a>
-			  	<h1 class="article-h1">{{post.title}}</h1>
+			  	<h1 class="article-h1 heading--{{parent.post_name}}">{{post.title}}</h1>
 			  	<div>
 			  		{{post.content|raw}}
 			  	</div>

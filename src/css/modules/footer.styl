@@ -1,10 +1,9 @@
 footer
   // background-color rgba(white, .9)
   position relative
-  display inline-flex
   // margin 20px
   // border-radius 4px
-  background rgba($primary, .5)
+  // background rgba($primary, .5)
   width 100%
   padding 20px
   
@@ -14,9 +13,12 @@ footer
     width 100%
     border-radius 3px
     padding 40px 40px 100px 20px
-    display flex
+    max-width $max-content-width
+    margin auto
     +above(tablet)
       padding 100px 70px 100px 50px
+    +above(desktop)
+      display flex
   
   .copyright
     margin-left auto

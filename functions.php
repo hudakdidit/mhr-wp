@@ -71,6 +71,10 @@ class StarterSite extends TimberSite {
 		// 	acf_add_options_page('Website Settings');
 		//
 		// }
+
+		
+		// Add category metabox to page
+		register_taxonomy_for_object_type('category', 'page');  
 	}
 
 	function register_post_types() {

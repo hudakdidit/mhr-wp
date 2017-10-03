@@ -294,34 +294,58 @@ var App = function () {
     }
 
     // Test for Touch Events
-    var touch = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+    this.touch = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
 
     // Navigation
-    var event = touch ? 'touchstart' : 'click';
+    var event = this.touch ? 'touchstart' : 'click';
+    this.toggleMenu = this._toggleMenu.bind(this);
+    this.closeMenu = this._closeMenu.bind(this);
+    this.openMenu = this._openMenu.bind(this);
     if (this.navToggle) {
-      this.navToggle.addEventListener(event, this._toggleMenu.bind(this));
+      this.navToggle.addEventListener(event, this.toggleMenu);
+      this._closeMenu();
     }
+    document.addEventListener("pjax:complete", this.closeMenu);
+    document.addEventListener("pjax:send", this._destroy.bind(this));
 
     this.tabs = new _tabs2.default(event);
 
-    if (touch) {
+    if (this.touch) {
       document.body.classList.add('touch');
       document.body.classList.remove('no-touch');
     }
   }
 
   _createClass(App, [{
+    key: '_destroy',
+    value: function _destroy() {
+      var event = this.touch ? 'touchstart' : 'click';
+      this.navToggle.removeEventListener(event, this.toggleMenu);
+      this.navToggle.removeEventListener("pjax:complete", this.closeMenu);
+    }
+  }, {
     key: '_toggleMenu',
     value: function _toggleMenu() {
+      console.log('toggleMenu called');
       if (this.nav.classList.contains('active')) {
-        this.nav.classList.remove('active');
-        this.navToggle.classList.remove('fa-close');
-        this.navToggle.classList.add('fa-bars');
+        this._closeMenu();
       } else {
-        this.nav.classList.add('active');
-        this.navToggle.classList.remove('fa-bars');
-        this.navToggle.classList.add('fa-close');
+        this._openMenu();
       }
+    }
+  }, {
+    key: '_openMenu',
+    value: function _openMenu() {
+      this.nav.classList.add('active');
+      this.navToggle.classList.remove('fa-bars');
+      this.navToggle.classList.add('fa-close');
+    }
+  }, {
+    key: '_closeMenu',
+    value: function _closeMenu() {
+      this.nav.classList.remove('active');
+      this.navToggle.classList.remove('fa-close');
+      this.navToggle.classList.add('fa-bars');
     }
   }, {
     key: '_handleResize',
@@ -2857,7 +2881,7 @@ __webpack_require__(13);
 var App = __webpack_require__(12).default;
 var Pjax = __webpack_require__(14);
 
-console.log("Document initialized:", window.location.href);
+var currentApp = new App();
 
 document.addEventListener("pjax:send", function () {
   console.log("Event: pjax:send", arguments);
@@ -2865,6 +2889,8 @@ document.addEventListener("pjax:send", function () {
 
 document.addEventListener("pjax:complete", function () {
   console.log("Event: pjax:complete", arguments);
+  currentApp = undefined; // clean up
+  currentApp = new App();
 });
 
 document.addEventListener("pjax:error", function () {
@@ -2873,7 +2899,6 @@ document.addEventListener("pjax:error", function () {
 
 document.addEventListener("pjax:success", function () {
   console.log("Event: pjax:success", arguments);
-  new App();
 });
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -2881,7 +2906,8 @@ document.addEventListener("DOMContentLoaded", function () {
     elements: 'a:not([data-open-window])',
     selectors: ['title', '#content']
   });
-  new App();
+  console.log('hey');
+  // new App();
 });
 
 /***/ })

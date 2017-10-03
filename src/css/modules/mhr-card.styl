@@ -1,15 +1,10 @@
 .mhr-cards-container
-  background rgba(white, .5)
+  background rgba(white, .95)
   border-radius 4px
   padding-bottom 20px
   margin-bottom 100px
   +above(tablet)
-    display flex
-    flex-wrap wrap
-    align-content center
-    align-items center
-    padding 20px 10px
-    margin 20px 20px 200px
+    background rgba(white, .5)
 
 .mhr-card__content
   +above(tablet)
@@ -34,22 +29,28 @@
   h2
     margin-bottom .5rem
     font-size 1.75rem
-
+  // p
+  //   max-width 300px
 p
   line-height 1.5
   margin-bottom 1rem
   font-weight 200
+
 
   a
     font-weight 400
     text-decoration underline
 
 .mhr-card__border
-  background rgba(white, .8)
+  background rgba(white, .95)
   box-shadow 0 3px 7px -3px rgba(black, .15)
   padding 15px
   border-radius 4px
   transition 200ms box-shadow ease-out-quart
+
+  +above(desktop)
+    background rgba(white, .8)
+    
   &:hover
     box-shadow 0 3px 10px -3px rgba(black, .25)
 
@@ -119,14 +120,14 @@ p
     padding-right 20px
 
     .mhr-card__info
-      flex 0 0 80%
+      // flex 0 0 60%
 
     .col:last-child
       min-width 150px
       text-align center
 
-  .logo
-    height 70px
+  // .logo
+  //   height 70px
 
 .mhr-card--catering .mhr-card__content
   .col

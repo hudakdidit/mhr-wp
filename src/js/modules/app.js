@@ -45,34 +45,56 @@ export default class App {
     }
 
     // Test for Touch Events
-    const touch = ('ontouchstart' in window) ||
+    this.touch = ('ontouchstart' in window) ||
       (navigator.maxTouchPoints > 0) ||
       (navigator.msMaxTouchPoints > 0);
 
     // Navigation
-    const event = touch ? 'touchstart' : 'click';
+    const event = this.touch ? 'touchstart' : 'click';
+    this.toggleMenu = this._toggleMenu.bind(this);
+    this.closeMenu = this._closeMenu.bind(this);
+    this.openMenu = this._openMenu.bind(this);
     if (this.navToggle) {
-      this.navToggle.addEventListener(event, this._toggleMenu.bind(this));
+      this.navToggle.addEventListener(event, this.toggleMenu);
+      this._closeMenu();
     }
+    document.addEventListener("pjax:complete", this.closeMenu);
+    document.addEventListener("pjax:send", this._destroy.bind(this));
 
     this.tabs = new Tabs(event);
 
-    if (touch) {
+    if (this.touch) {
       document.body.classList.add('touch');
       document.body.classList.remove('no-touch');
     }
   }
 
+  _destroy() {
+    const event = this.touch ? 'touchstart' : 'click';
+    this.navToggle.removeEventListener(event, this.toggleMenu);
+    this.navToggle.removeEventListener("pjax:complete", this.closeMenu);
+  }
+
   _toggleMenu() {
+    console.log('toggleMenu called');
     if (this.nav.classList.contains('active')) {
-      this.nav.classList.remove('active');
-      this.navToggle.classList.remove('fa-close');
-      this.navToggle.classList.add('fa-bars');
+      this._closeMenu();
     } else {
-      this.nav.classList.add('active');
-      this.navToggle.classList.remove('fa-bars');
-      this.navToggle.classList.add('fa-close');
+      this._openMenu();
     }
+  }
+
+  _openMenu() {
+    this.nav.classList.add('active');
+    this.navToggle.classList.remove('fa-bars');
+    this.navToggle.classList.add('fa-close');
+    
+  }
+
+  _closeMenu() {
+    this.nav.classList.remove('active');
+    this.navToggle.classList.remove('fa-close');
+    this.navToggle.classList.add('fa-bars');
   }
 
   _handleResize() {

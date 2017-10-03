@@ -11,22 +11,25 @@
 
 $context = Timber::get_context();
 $post = Timber::query_post();
+
 $context['post'] = $post;
 $children = Timber::get_posts("post_type=restaurant&post_parent=$post->ID&posts_per_page=-1");
 $siblings = Timber::get_posts("post_type=restaurant&post_parent=$post->post_parent&exclude=>$post->ID");
 $context['submenu'] = $children ? $children : $siblings;
 
 $restaurantCategories = $context['main_restaurant_categories'];
-$isMenu = $post->post_type == "menu";
-$context['is_menu'] = $isMenu;
+$hasParentRestaurantPage = $post->post_type == ("restaurant" || "menu" || "gift_certificates" || "event");
+
+$context['is_menu'] = $post->post_type == "menu";
+$context['hasParentRestaurantPage'] = $hasParentRestaurantPage;
 $restaurant = null;
-if ($isMenu) {
+if ($hasParentRestaurantPage) {
 	$restaurant = getRestaurant($post, $restaurantCategories);
 }
 
 $parent = null;
-if ($post->post_parent || $isMenu) {
-	$parent = $isMenu ? $restaurant : $post->post_parent;
+if ($post->post_parent || $hasParentRestaurantPage) {
+	$parent = $hasParentRestaurantPage ? $restaurant : $post->post_parent;
 	$context['parent'] = get_post($parent);
 	$context['parent_title'] = get_the_title($parent);
 	$context['parent_link'] = get_permalink($parent);
@@ -44,8 +47,7 @@ function getRestaurant($post, $categories) {
 		}
 	}
 }
-
-$post_id = $isMenu ? $parent->ID : $post->ID;
+$post_id = $hasParentRestaurantPage ? $parent->ID : $post->ID;
 $context['menus'] = get_field('menus', $post_id);
 $context['tastingmenus'] = get_field('tasting_menus', $post_id);
 $context['events'] = get_field('events_listing', $post_id);

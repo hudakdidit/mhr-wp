@@ -36,7 +36,7 @@
 					{% else %}
 						<div class="row">
 							<div class="article-content">{{post.post_content|shortcodes}}</div>
-							{% if post.thumbnail %}
+							{% if post.thumbnail and not post.show_sub_nav %}
 								<div class="page-image"><img src="{{TimberImage(post.thumbnail).src}}"></div>
 							{% endif %}
 						</div>

@@ -36,25 +36,16 @@
 									</div>
 								</div>
 									<div class="mhr-card__link">
-
-										{% if restaurant.site_url %}
-											<a href="{{restaurant.site_url}}"><img class="logo logo--{{restaurant.post_name}}" src="{{TimberImage(restaurant.logo).src}}" alt="{{restaurant.post_title}} Logo" /></a>
-										{% elseif restaurant.link %}
-											<a href="{{restaurant.link}}"><img class="logo logo--{{restaurant.post_name}}" src="{{TimberImage(restaurant.logo).src}}" alt="{{restaurant.post_title}} Logo" /></a>
-										{% else %}
-											<img class="logo logo--{{restaurant.post_name}}" src="{{TimberImage(restaurant.logo).src}}" alt="{{restaurant.post_title}} Logo" />
-										{% endif %}
-
 										{% set post_url = restaurant.ID | post_url_by_id %}
+
+										<a href="{{post_url}}"><img class="logo logo--{{restaurant.post_name}}" src="{{TimberImage(restaurant.logo).src}}" alt="{{restaurant.post_title}} Logo" /></a>
+
+										
 										{% if restaurant.site_url and restaurant.post_name != 'catering' %}
 											<a class="button" href="{{restaurant.site_url}}">More Info</a>
 										{% elseif post_url and restaurant.post_name != 'catering' %}
 											<a class="button" href="{{restaurant.ID | post_url_by_id}}">More Info</a>
 										{% endif %}
-
-										<!-- {% if restaurant.post_name == 'young-american-ale-house' %}
-											<a class="button" target="_blank" href="{{restaurant.download | attachment_url}}">{{restaurant.download_label}}</a>
-										{% endif %} -->
 									</div>
 							</div>
 							{% if restaurant.special_events %}
@@ -81,7 +72,7 @@
 									<h3>{{featured_person.title}}</h3>
 									{% if featured_person.award_title %}
 									<div class="row">
-										<div><img class="logo logo--catering" src="{{TimberImage(featured_person.award_image).src}}" width="50"></div>
+										<div><img class="logo logo--award" src="{{TimberImage(featured_person.award_image).src}}" width="50"></div>
 										<p class="caption">{{featured_person.award_title}}</p>
 									</div>
 									{% endif %}

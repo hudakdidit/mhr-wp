@@ -3,14 +3,16 @@ require('../css/index.styl');
 const App = require('./modules/app').default;
 const Pjax = require('pjax');
 
-console.log("Document initialized:", window.location.href)
+let currentApp = new App();
 
 document.addEventListener("pjax:send", function() {
   console.log("Event: pjax:send", arguments)
 })
 
 document.addEventListener("pjax:complete", function() {
-  console.log("Event: pjax:complete", arguments)
+  console.log("Event: pjax:complete", arguments);
+  currentApp = undefined; // clean up
+  currentApp = new App();
 })
 
 document.addEventListener("pjax:error", function() {
@@ -19,7 +21,6 @@ document.addEventListener("pjax:error", function() {
 
 document.addEventListener("pjax:success", function() {
   console.log("Event: pjax:success", arguments);
-  new App();
 })
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -27,5 +28,6 @@ document.addEventListener("DOMContentLoaded", function() {
     elements: 'a:not([data-open-window])',
     selectors: ['title', '#content']
   });
-  new App();
+  console.log('hey');
+  // new App();
 });

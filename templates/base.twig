@@ -32,9 +32,11 @@
 		
 		{% block header %}
 			<div class="navigation">
-				<a class="logo" href="{{site.url}}"><img src="{{TimberImage(logo).src}}" alt="{{site.name}}" /></a>
-				<span class="min-toggle fa fa-bars" data-nav-toggle></span>
-				{% include "main-menu.twig" with {'menu': primary_menu.get_items} %}
+				<div class="navigation-wrapper">
+					<a class="logo" href="{{site.url}}"><img src="{{TimberImage(logo).src}}" alt="{{site.name}}" /></a>
+					<span class="min-toggle fa fa-bars" data-nav-toggle></span>
+					{% include "main-menu.twig" with {'menu': primary_menu.get_items} %}
+				</div>
 			</div>
 		{% endblock %}
 

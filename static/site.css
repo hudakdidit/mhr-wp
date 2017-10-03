@@ -105,12 +105,12 @@
 }
 @media (min-width: 1250px) {
   .dropdown.nav-link--about {
-    min-width: 250px;
+    min-width: 150px;
   }
 }
 @media (min-width: 1250px) {
   .dropdown.nav-link--restaurants {
-    min-width: 180px;
+    min-width: 150px;
   }
 }
 .dropdown__items {
@@ -152,10 +152,6 @@
 }
 footer {
   position: relative;
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  background: rgba(123,142,53,0.5);
   width: 100%;
   padding: 20px;
 }
@@ -164,13 +160,19 @@ footer .footer-wrap {
   width: 100%;
   border-radius: 3px;
   padding: 40px 40px 100px 20px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  max-width: 1100px;
+  margin: auto;
 }
 @media (min-width: 700px) {
   footer .footer-wrap {
     padding: 100px 70px 100px 50px;
+  }
+}
+@media (min-width: 1250px) {
+  footer .footer-wrap {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
   }
 }
 footer .copyright {
@@ -227,30 +229,27 @@ footer a .fa {
   height: auto;
 }
 .homepage-panels {
+  padding-top: 90px;
   height: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+}
+@media (min-width: 1250px) {
+  .homepage-panels {
+    padding-top: 0;
+  }
 }
 .image-panel-wrapper {
-  height: 80vh;
   width: 100%;
   background: #fcf4ef;
-  padding: 20px;
 }
-.image-panel-wrapper:nth-child(even) {
-  padding-left: 0;
+@media (min-width: 1250px) {
+  .image-panel-wrapper {
+    height: 80vh;
+    padding: 20px;
+  }
 }
 .image-panel-wrapper:nth-child(1),
 .image-panel-wrapper:nth-child(2) {
   padding-bottom: 0;
-}
-@media (min-width: 700px) {
-  .image-panel-wrapper {
-    width: 50%;
-  }
 }
 .image-panel {
   width: 100%;
@@ -271,6 +270,7 @@ footer a .fa {
   position: relative;
   z-index: 10;
   border-radius: 3px;
+  background-color: rgba(123,142,53,0.2);
 }
 .image-panel.reservations {
   z-index: 5;
@@ -306,6 +306,27 @@ footer a .fa {
   height: auto;
   padding: 10% 0;
 }
+.logo {
+  height: 100px;
+  display: block;
+  position: relative;
+}
+.logo img {
+  max-width: 100%;
+  max-height: 100%;
+}
+.logo--tilth {
+  height: 150px;
+  width: auto;
+}
+.logo--catering {
+  height: auto;
+  width: 250px;
+}
+.logo--award {
+  width: 70px;
+  height: auto;
+}
 .logo--mhr {
   width: 150px;
   display: inline-block;
@@ -317,11 +338,8 @@ footer a .fa {
     margin: 20px;
   }
 }
-.logo--tilth {
-  height: 150px;
-}
-.logo--young-american {
-  width: 100%;
+.logo--mini {
+  height: 100px;
 }
 .menu-list-item {
   padding: 1rem;
@@ -343,25 +361,14 @@ footer a .fa {
   padding: 0;
 }
 .mhr-cards-container {
-  background: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.95);
   border-radius: 4px;
   padding-bottom: 20px;
   margin-bottom: 100px;
 }
 @media (min-width: 700px) {
   .mhr-cards-container {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-    -ms-flex-line-pack: center;
-        align-content: center;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    padding: 20px 10px;
-    margin: 20px 20px 200px;
+    background: rgba(255,255,255,0.5);
   }
 }
 @media (min-width: 700px) {
@@ -406,12 +413,17 @@ p a {
   text-decoration: underline;
 }
 .mhr-card__border {
-  background: rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.95);
   box-shadow: 0 3px 7px -3px rgba(0,0,0,0.15);
   padding: 15px;
   border-radius: 4px;
   -webkit-transition: 200ms box-shadow cubic-bezier(0.165, 0.84, 0.44, 1);
   transition: 200ms box-shadow cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+@media (min-width: 1250px) {
+  .mhr-card__border {
+    background: rgba(255,255,255,0.8);
+  }
 }
 .mhr-card__border:hover {
   box-shadow: 0 3px 10px -3px rgba(0,0,0,0.25);
@@ -511,18 +523,10 @@ p a {
     height: auto;
     padding-right: 20px;
   }
-  .mhr-card--catering .mhr-card__content .mhr-card__info {
-    -webkit-box-flex: 0;
-        -ms-flex: 0 0 80%;
-            flex: 0 0 80%;
-  }
   .mhr-card--catering .mhr-card__content .col:last-child {
     min-width: 150px;
     text-align: center;
   }
-}
-.mhr-card--catering .mhr-card__content .logo {
-  height: 70px;
 }
 .mhr-card--catering .mhr-card__content .col {
   margin-bottom: 1rem;
@@ -842,6 +846,9 @@ p a {
     padding: 10px 20px 10px 10px;
   }
 }
+.navigation .logo {
+  height: auto;
+}
 .navigation::after {
   content: '';
   position: absolute;
@@ -860,17 +867,6 @@ p a {
 }
 @media (min-width: 1250px) {
   .navigation {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between;
-    -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
     margin: 20px;
     border-radius: 4px;
     padding: 20px;
@@ -929,6 +925,25 @@ p a {
   }
   .navigation .logo img {
     height: 80px;
+  }
+}
+.navigation-wrapper {
+  max-width: 1100px;
+  margin: auto;
+}
+@media (min-width: 1250px) {
+  .navigation-wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
   }
 }
 .primary-nav {
@@ -1015,8 +1030,13 @@ p a {
 .primary-nav a[href*="reservations"] {
   background: rgba(123,142,53,0.7);
   color: #fff;
-  padding: 10px;
-  border-radius: 3px;
+  padding: 20px 30px;
+}
+@media (min-width: 1250px) {
+  .primary-nav a[href*="reservations"] {
+    padding: 10px;
+    border-radius: 3px;
+  }
 }
 .primary-nav a[href*="reservations"]:hover {
   background: rgba(123,142,53,0.9);
@@ -1118,7 +1138,7 @@ p a {
   -webkit-transition: 300ms background ease-out;
   transition: 300ms background ease-out;
   display: block;
-  width: 250px;
+  width: 350px;
   max-width: 100%;
   height: 200px;
   display: -webkit-box;
@@ -1141,17 +1161,19 @@ p a {
   min-height: 100%;
 }
 @media (min-width: 700px) {
-  .single-restaurant .content-wrapper {
+  .single-restaurant .content-wrapper,
+  .single-gift_certificates .content-wrapper {
     padding-top: 100px;
   }
 }
 .post-type-page {
-  padding: 20px;
+  max-width: 1100px;
+  margin: auto;
   border-radius: 4px;
 }
 @media (min-width: 700px) {
   .post-type-page {
-    padding: 40px 60px;
+    padding: 40px;
   }
 }
 .post-type-page p {
@@ -1172,6 +1194,16 @@ p a {
 .page-image img {
   max-width: 100%;
   border: 1em #fff solid;
+}
+.post-type-page {
+  max-width: 1100px;
+  margin: auto;
+  padding-top: 90px;
+}
+@media (min-width: 1250px) {
+  .post-type-page {
+    padding-top: 0;
+  }
 }
 .page h1 {
   font-size: 40px;
@@ -1272,27 +1304,29 @@ p a {
   padding-left: 0;
   padding-right: 0;
 }
+.reservations-container {
+  padding-top: 90px;
+}
+@media (min-width: 1250px) {
+  .reservations-container {
+    padding-top: 0;
+  }
+}
 .reservation-card__container {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  padding: 50px 20px;
+  padding: 0;
 }
 @media (min-width: 1250px) {
   .reservation-card__container {
-    padding: 100px 20px;
+    border-radius: 4px;
+    margin: 20px;
+    padding: 20px;
   }
 }
 .no-touch .reservation-card__container {
   background-attachment: fixed;
-}
-@media (min-width: 700px) {
-  .reservation-card__container {
-    padding: 100px 20px;
-  }
-}
-.reservation-card__container--tilth {
-  padding-top: 300px;
 }
 .reservation-card .location .logo--agrodolce img {
   width: 200px;
@@ -1312,6 +1346,8 @@ p a {
         -ms-flex-pack: justify;
             justify-content: space-between;
     padding: 40px;
+    max-width: 50%;
+    margin: auto;
   }
   .reservation-card .reservation-link,
   .reservation-card .telephone-link {
@@ -1329,6 +1365,10 @@ p a {
 .reservation-card a {
   font-weight: 700;
   color: #4f5823;
+}
+.reservation-card .map {
+  display: block;
+  margin-bottom: 20px;
 }
 .reservation-card .location h2,
 .reservation-card .location h3 {
@@ -1379,14 +1419,18 @@ a.telephone-link:hover {
   background: #6f8030;
 }
 .post-type--restaurant,
-.post-type--menu {
+.post-type--event,
+.post-type--menu,
+.post-type--gift_certificates {
   background: rgba(252,244,239,0.9);
   padding: 20px;
   border-radius: 3px;
 }
 @media (min-width: 700px) {
   .post-type--restaurant,
-  .post-type--menu {
+  .post-type--event,
+  .post-type--menu,
+  .post-type--gift_certificates {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -1394,79 +1438,113 @@ a.telephone-link:hover {
 }
 @media (min-width: 1250px) {
   .post-type--restaurant,
-  .post-type--menu {
+  .post-type--event,
+  .post-type--menu,
+  .post-type--gift_certificates {
     padding: 40px 60px;
+    max-width: 1100px;
+    margin: auto;
   }
 }
 .post-type--restaurant .article-h1,
-.post-type--menu .article-h1 {
-  margin-bottom: 20px;
+.post-type--event .article-h1,
+.post-type--menu .article-h1,
+.post-type--gift_certificates .article-h1 {
+  margin: 20px 0;
 }
 .post-type--restaurant .article-body h4,
-.post-type--menu .article-body h4 {
+.post-type--event .article-body h4,
+.post-type--menu .article-body h4,
+.post-type--gift_certificates .article-body h4 {
   margin: 1rem 0;
 }
 .post-type--restaurant .article-body p,
-.post-type--menu .article-body p {
+.post-type--event .article-body p,
+.post-type--menu .article-body p,
+.post-type--gift_certificates .article-body p {
   max-width: 60ch;
 }
 .post-type--restaurant .article-body p:first-child,
-.post-type--menu .article-body p:first-child {
+.post-type--event .article-body p:first-child,
+.post-type--menu .article-body p:first-child,
+.post-type--gift_certificates .article-body p:first-child {
   font-size: 1.2rem;
   margin-bottom: 2rem;
   max-width: 100%;
 }
 @media (min-width: 1250px) {
   .post-type--restaurant .article-body p:first-child,
-  .post-type--menu .article-body p:first-child {
+  .post-type--event .article-body p:first-child,
+  .post-type--menu .article-body p:first-child,
+  .post-type--gift_certificates .article-body p:first-child {
     font-size: 1.4rem;
   }
 }
 .post-type--restaurant .article-h1,
-.post-type--menu .article-h1 {
+.post-type--event .article-h1,
+.post-type--menu .article-h1,
+.post-type--gift_certificates .article-h1 {
   font-size: 1.5rem;
   font-weight: 400;
 }
 @media (min-width: 1250px) {
   .post-type--restaurant .article-h1,
-  .post-type--menu .article-h1 {
+  .post-type--event .article-h1,
+  .post-type--menu .article-h1,
+  .post-type--gift_certificates .article-h1 {
     font-size: 2.5rem;
   }
 }
 .post-type--restaurant .logo,
-.post-type--menu .logo {
+.post-type--event .logo,
+.post-type--menu .logo,
+.post-type--gift_certificates .logo {
   display: block;
 }
 .post-type--restaurant .logo--young-american-ale-house,
-.post-type--menu .logo--young-american-ale-house {
+.post-type--event .logo--young-american-ale-house,
+.post-type--menu .logo--young-american-ale-house,
+.post-type--gift_certificates .logo--young-american-ale-house {
   padding-bottom: 1em;
   width: 100px;
 }
 @media (min-width: 1250px) {
   .post-type--restaurant .logo--young-american-ale-house,
-  .post-type--menu .logo--young-american-ale-house {
+  .post-type--event .logo--young-american-ale-house,
+  .post-type--menu .logo--young-american-ale-house,
+  .post-type--gift_certificates .logo--young-american-ale-house {
     width: 150px;
   }
 }
 .post-type--restaurant .logo--young-american-ale-house img,
-.post-type--menu .logo--young-american-ale-house img {
+.post-type--event .logo--young-american-ale-house img,
+.post-type--menu .logo--young-american-ale-house img,
+.post-type--gift_certificates .logo--young-american-ale-house img {
   max-width: 100%;
   height: auto;
 }
 .post-type--restaurant a.reservation-link,
+.post-type--event a.reservation-link,
 .post-type--menu a.reservation-link,
+.post-type--gift_certificates a.reservation-link,
 .post-type--restaurant a.telephone-link,
-.post-type--menu a.telephone-link {
+.post-type--event a.telephone-link,
+.post-type--menu a.telephone-link,
+.post-type--gift_certificates a.telephone-link {
   padding-right: 0;
 }
 .post-type--restaurant .mhr-card__special-events,
-.post-type--menu .mhr-card__special-events {
+.post-type--event .mhr-card__special-events,
+.post-type--menu .mhr-card__special-events,
+.post-type--gift_certificates .mhr-card__special-events {
   padding: 40px 20px;
   background: rgba(255,255,255,0.6);
   margin-bottom: 40px;
 }
 .post-type--restaurant .mhr-card__special-events__title,
-.post-type--menu .mhr-card__special-events__title {
+.post-type--event .mhr-card__special-events__title,
+.post-type--menu .mhr-card__special-events__title,
+.post-type--gift_certificates .mhr-card__special-events__title {
   margin-bottom: 1rem;
 }
 .restaurant-summary {
@@ -1590,6 +1668,20 @@ a.telephone-link:hover {
 .single .post-body__content {
   max-width: 725px;
 }
+.single.single-restaurant .content-wrapper,
+.single.single-menu .content-wrapper,
+.single.single-gift_certificates .content-wrapper,
+.single.single-event .content-wrapper {
+  padding-top: 110px;
+}
+@media (min-width: 1250px) {
+  .single.single-restaurant .content-wrapper,
+  .single.single-menu .content-wrapper,
+  .single.single-gift_certificates .content-wrapper,
+  .single.single-event .content-wrapper {
+    padding-top: 20px;
+  }
+}
 .tabs-group {
   background: rgba(252,244,239,0.5);
   border-radius: 4px;
@@ -1673,8 +1765,16 @@ a.telephone-link:hover {
   transition: all 300ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
   max-height: 9999px;
 }
+.toggle-group.open .toggle-group__header {
+  white-space: normal;
+  text-overflow: unset;
+  overflow: visible;
+}
 .toggle-group__header {
   padding: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .toggle-group__content {
   padding: 16px 16px 40px;
@@ -1723,10 +1823,6 @@ hr {
   border-bottom: 1px solid rgba(0,0,0,0.5);
   margin: 2em 0;
 }
-.single-restaurant .logo--tilth,
-.single-menu .logo--tilth {
-  height: 210px;
-}
 * {
   box-sizing: border-box;
   margin: 0;
@@ -1747,6 +1843,12 @@ body,
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+}
+@media (min-width: 1250px) {
+  body,
+  #content {
+    background-attachment: fixed;
+  }
 }
 body.no-touch,
 #content.no-touch {

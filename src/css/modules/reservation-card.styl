@@ -7,23 +7,35 @@
     padding-left 0
     padding-right 0
 
+.reservations-container
+  padding-top 90px
+  +above(desktop)
+    padding-top 0
+    // display flex
+    // flex-wrap wrap
+
 .reservation-card__container
   background-size cover
   background-position center
   background-repeat no-repeat
-  padding 50px 20px
+  padding 0
 
   +above(desktop)
-    padding 100px 20px
+    border-radius 4px
+    // padding 100px 20px
+    // flex 1 0 calc(50% - 40px)
+    margin 20px
+    padding 20px
+
 
   .no-touch &
     background-attachment fixed
 
-  +above(tablet)
-    padding 100px 20px
+  // +above(tablet)
+  //   padding 100px 20px
 
-.reservation-card__container--tilth
-  padding-top 300px
+// .reservation-card__container--tilth
+//   padding-top 300px
 
 .reservation-card .location .logo--agrodolce img
   width 200px
@@ -38,6 +50,8 @@
     display flex
     justify-content space-between
     padding 40px
+    max-width 50%
+    margin auto
 
     .reservation-link,
     .telephone-link
@@ -52,6 +66,10 @@
   a
     font-weight 700
     color $tilth
+  
+  .map
+    display block
+    margin-bottom 20px
 
   .location
     h2, h3

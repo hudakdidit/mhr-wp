@@ -62,6 +62,9 @@ $nav-height = 84px
   +above(desktop)
     padding 10px 20px 10px 10px
 
+  .logo
+    height auto
+
 
   &::after
     content ''
@@ -76,13 +79,8 @@ $nav-height = 84px
 
     +above(tablet)
       display none
-
-
+  
   +above(desktop)
-    display flex
-    align-items center
-    justify-content space-between
-    flex-wrap wrap
     margin 20px
     border-radius 4px
     padding 20px
@@ -117,6 +115,15 @@ $nav-height = 84px
       padding-left 40px
       img
         height 80px
+.navigation-wrapper 
+  max-width $max-content-width
+  margin auto
+
+  +above(desktop)
+    display flex
+    align-items center
+    justify-content space-between
+    flex-wrap wrap
 
 .primary-nav
   background white
@@ -182,8 +189,11 @@ $nav-height = 84px
   a[href*="reservations"]
     background rgba($primary, .7)
     color white
-    padding 10px
-    border-radius 3px
+    padding 20px 30px
+
+    +above(desktop)
+      padding 10px
+      border-radius 3px
 
     &:hover
       background rgba($primary, .9)
@@ -267,7 +277,7 @@ $nav-height = 84px
   background-position center
   transition 300ms background ease-out
   display block
-  width 250px
+  width 350px
   max-width 100%
   height 200px
   display flex
