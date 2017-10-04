@@ -1,6 +1,6 @@
 .homepage-panels 
   padding-top 90px
-  height 100%
+  min-height 100%
   
   +above(desktop)
     padding-top 0
@@ -9,14 +9,10 @@
   
   width 100%
   background $secondary
+  padding 20px 20px 0 20px
 
   +above(desktop)
-    height 80vh
-    padding 20px
-
-  &:nth-child(1),
-  &:nth-child(2)
-    padding-bottom 0
+    height 550px
     
   // +above(tablet)
   //   width 50%
@@ -34,6 +30,7 @@
   z-index 10
   border-radius 3px
   background-color rgba($primary, .2)
+  padding 40px 0
 
   &.reservations
     z-index 5

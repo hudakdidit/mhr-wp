@@ -230,7 +230,7 @@ footer a .fa {
 }
 .homepage-panels {
   padding-top: 90px;
-  height: 100%;
+  min-height: 100%;
 }
 @media (min-width: 1250px) {
   .homepage-panels {
@@ -240,16 +240,12 @@ footer a .fa {
 .image-panel-wrapper {
   width: 100%;
   background: #fcf4ef;
+  padding: 20px 20px 0 20px;
 }
 @media (min-width: 1250px) {
   .image-panel-wrapper {
-    height: 80vh;
-    padding: 20px;
+    height: 550px;
   }
-}
-.image-panel-wrapper:nth-child(1),
-.image-panel-wrapper:nth-child(2) {
-  padding-bottom: 0;
 }
 .image-panel {
   width: 100%;
@@ -271,6 +267,7 @@ footer a .fa {
   z-index: 10;
   border-radius: 3px;
   background-color: rgba(123,142,53,0.2);
+  padding: 40px 0;
 }
 .image-panel.reservations {
   z-index: 5;
