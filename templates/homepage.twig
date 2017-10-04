@@ -43,7 +43,7 @@
 										
 										{% if restaurant.site_url and restaurant.post_name != 'catering' %}
 											<a class="button" href="{{restaurant.site_url}}">More Info</a>
-										{% elseif post_url and restaurant.post_name != 'catering' %}
+										{% elseif post_url %}
 											<a class="button" href="{{restaurant.ID | post_url_by_id}}">More Info</a>
 										{% endif %}
 									</div>

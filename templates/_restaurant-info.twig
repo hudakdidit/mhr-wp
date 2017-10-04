@@ -1,5 +1,6 @@
 <div class="restaurant-info__container">
 
+{% if restaurant.post_name != 'catering' %}
 <h3>Reservations and Information</h3>
 
 <a itemprop="telephone" href="tel:{{restaurant.telephone}}" class="telephone-link">
@@ -28,6 +29,7 @@
 <hr/>
 
 <h3>Hours</h3>
+{% endif %}
 
 {{restaurant.hours}}
 

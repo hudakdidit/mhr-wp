@@ -28,8 +28,8 @@ if ($hasParentRestaurantPage) {
 	$restaurant = getRestaurant($post, $restaurantCategories);
 }
 
-$parent = null;
-if ($post->post_parent || $hasParentRestaurantPage) {
+global $parent;
+if ($hasParentRestaurantPage || $post->post_parent) {
 	$parent = $hasParentRestaurantPage ? $restaurant : $post->post_parent;
 	$context['parent'] = get_post($parent);
 	$context['parent_title'] = get_the_title($parent);
@@ -48,19 +48,26 @@ function getRestaurant($post, $categories) {
 		}
 	}
 }
-$post_id = $hasParentRestaurantPage ? $parent->ID : $post->ID;
-function getRestaurantMenus($post_id) {
+
+$post_id = $hasParentRestaurantPage ? ($parent && $parent->ID) : $post->ID;
+
+function getRestaurantMenus($post_id, $post) {
 	$categories = wp_get_post_categories($post_id);
-	$tasting_category = $category_id = get_cat_ID('Tasting Menu');
-	if (count($categories) > 0) {
+	$category = count($categories) > 0 ? $categories[0] : null;
+	if ($post->post_name == 'catering') {
+		$category = get_cat_ID('Catering');
+	} // not sure why I need to do this...
+
+	$tasting_category = get_cat_ID('Tasting Menu');
+	if ($category) {
 		return get_posts(array(
-			"category" => $categories[0],
+			"category" => $category,
 			"post_type" => "menu",
 			"category__not_in" => array($tasting_category)
 		));
 	}
 }
-function getRestaurantTastoingMenus($post_id) {
+function getRestaurantTastingMenus($post_id) {
 	$categories = wp_get_post_categories($post_id);
 	$tasting_category = $category_id = get_cat_ID('Tasting Menu');
 	if (count($categories) > 0) {
@@ -73,8 +80,8 @@ function getRestaurantTastoingMenus($post_id) {
 
 // $context['menus'] = get_field('menus', $post_id);
 // $context['tastingmenus'] = get_field('tasting_menus', $post_id);
-$context['menus'] = getRestaurantMenus($post_id);
-$context['tastingmenus'] = getRestaurantTastoingMenus($post_id);
+$context['menus'] = getRestaurantMenus($post_id, $post);
+$context['tastingmenus'] = getRestaurantTastingMenus($post_id);
 
 function getRestaurantEvents($post_id) {
 	$categories = wp_get_post_categories($post_id);
