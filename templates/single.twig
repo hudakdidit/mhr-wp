@@ -64,9 +64,9 @@
 								<div id="restaurant-events" class="tabs-content">
 									<nav class="restaurant-info__container">
 									  {% for item in events %}
-												{% set url = item.event.ID|post_url_by_id %}
+												{% set url = item.ID|post_url_by_id %}
 						            <div class="{{item.class}} menu-list-item">
-						              <a href="{{url}}">{{item.event.post_title}}</a>
+						              <a href="{{url}}">{{item.post_title}}</a>
 						            </div>
                     {% endfor %}
 									</nav>

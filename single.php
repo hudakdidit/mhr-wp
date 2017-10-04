@@ -17,6 +17,7 @@ $children = Timber::get_posts("post_type=restaurant&post_parent=$post->ID&posts_
 $siblings = Timber::get_posts("post_type=restaurant&post_parent=$post->post_parent&exclude=>$post->ID");
 $context['submenu'] = $children ? $children : $siblings;
 
+$restaurantPostType = $post->post_type == "restaurant";
 $restaurantCategories = $context['main_restaurant_categories'];
 $hasParentRestaurantPage = $post->post_type == ("restaurant" || "menu" || "gift_certificates" || "event");
 
@@ -50,7 +51,21 @@ function getRestaurant($post, $categories) {
 $post_id = $hasParentRestaurantPage ? $parent->ID : $post->ID;
 $context['menus'] = get_field('menus', $post_id);
 $context['tastingmenus'] = get_field('tasting_menus', $post_id);
-$context['events'] = get_field('events_listing', $post_id);
+
+function getRestaurantEvents($post_id) {
+	$categories = wp_get_post_categories($post_id);
+	if (count($categories) > 0) {
+		return get_posts(array(
+			"category" => $categories[0],
+			"post_type" => "event"
+		));
+	}
+}
+$events = null;
+if ($hasParentRestaurantPage || $restaurantPostType) {
+	$events = getRestaurantEvents($post_id);
+}
+$context['events'] = $events;
 
 if ( post_password_required( $post->ID ) ) {
 	Timber::render( 'single-password.twig', $context );
