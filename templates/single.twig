@@ -39,19 +39,20 @@
 					    <div id="restaurant-info" class="tabs-content first">
 					    	{% include '_restaurant-info.twig' with { restaurant: restaurantInfo } %}
 					    </div>
+							{% set stringReplace = {'Tilth': '', 'Agrodolce': '', 'Menu': ''} %}
 					    {% if submenu %}
 					    	<div id="restaurant-menus" class="tabs-content {% if is_menu %}active{% endif %}">
 					        <nav class="restaurant-info__container">
-					          {% for item in menus %}
-					            <div class="{{item.class}} menu-list-item">
-					              	<a href="{{ item.menu ? item.menu.url : item.menu_page.ID|post_url_by_id }}" title="{{item.menu_title}}" {% if item.menu %} data-open-window="" {% endif %}>{{item.menu_title}}</a>
+					          {% for menu in menus %}
+					            <div class="{{menu.class}} menu-list-item">
+					              	<a href="{{ menu.ID|post_url_by_id }}" title="{{menu.post_title}}" >{{menu.post_title|replace(stringReplace)}}</a>
 					            </div>
 					          {% endfor %}
 										{% if tastingmenus | length %}
 											<h4>Tasting Menus</h4>
-												{% for item in tastingmenus %}
-													<div class="{{item.class}} menu-list-item">
-															<a href="{{ item.menu ? item.menu.url : item.menu_page.ID|post_url_by_id }}" title="{{item.menu_title}}" {% if item.menu %} data-open-window="" {% endif %}>{{item.menu_title ? item.menu_title : item.menu_page.post_title }}</a>
+												{% for menu in tastingmenus %}
+													<div class="{{menu.class}} menu-list-item">
+															<a href="{{ menu.ID|post_url_by_id }}" title="{{menu.post_title}}" {% if item.menu %} data-open-window="" {% endif %}>{{ menu.post_title|replace(stringReplace) }}</a>
 													</div>
 												{% endfor %}
 			
@@ -78,7 +79,7 @@
 			{% if parent %}
 			  <section class="restaurant-page" data-ajax-target="menu">
 					<a href="{{parent_link}}" class="logo logo--{{parent.post_name}} restaurant-page-mobile-logo"><img src="{{TimberImage(parent.logo).src}}" alt="{{parent.title}} Logo" /></a>
-			  	<h1 class="article-h1 heading--{{parent.post_name}}">{{post.title}}</h1>
+			  	<h1 class="article-h1 heading--{{parent.post_name}}">{{post.title|replace(stringReplace)}}</h1>
 			  	<div>
 			  		{{post.content|raw}}
 			  	</div>

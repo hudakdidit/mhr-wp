@@ -49,8 +49,32 @@ function getRestaurant($post, $categories) {
 	}
 }
 $post_id = $hasParentRestaurantPage ? $parent->ID : $post->ID;
-$context['menus'] = get_field('menus', $post_id);
-$context['tastingmenus'] = get_field('tasting_menus', $post_id);
+function getRestaurantMenus($post_id) {
+	$categories = wp_get_post_categories($post_id);
+	$tasting_category = $category_id = get_cat_ID('Tasting Menu');
+	if (count($categories) > 0) {
+		return get_posts(array(
+			"category" => $categories[0],
+			"post_type" => "menu",
+			"category__not_in" => array($tasting_category)
+		));
+	}
+}
+function getRestaurantTastoingMenus($post_id) {
+	$categories = wp_get_post_categories($post_id);
+	$tasting_category = $category_id = get_cat_ID('Tasting Menu');
+	if (count($categories) > 0) {
+		return get_posts(array(
+			"post_type" => "menu",
+			"category__and" => array($categories[0], $tasting_category)
+		));
+	}
+}
+
+// $context['menus'] = get_field('menus', $post_id);
+// $context['tastingmenus'] = get_field('tasting_menus', $post_id);
+$context['menus'] = getRestaurantMenus($post_id);
+$context['tastingmenus'] = getRestaurantTastoingMenus($post_id);
 
 function getRestaurantEvents($post_id) {
 	$categories = wp_get_post_categories($post_id);
