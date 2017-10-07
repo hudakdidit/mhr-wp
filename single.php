@@ -15,11 +15,13 @@ $post = Timber::query_post();
 $context['post'] = $post;
 $children = Timber::get_posts("post_type=restaurant&post_parent=$post->ID&posts_per_page=-1");
 $siblings = Timber::get_posts("post_type=restaurant&post_parent=$post->post_parent&exclude=>$post->ID");
+
 $context['submenu'] = $children ? $children : $siblings;
 
 $restaurantPostType = $post->post_type == "restaurant";
 $restaurantCategories = $context['main_restaurant_categories'];
-$hasParentRestaurantPage = $post->post_type == ("restaurant" || "menu" || "gift_certificates" || "event");
+$isRestaurantChildPage = $post->post_type == ("menu" || "gift_certificates" || "event");
+$hasParentRestaurantPage = $post->post_type == "restaurant" || $isRestaurantChildPage;
 
 $context['is_menu'] = $post->post_type == "menu";
 $context['hasParentRestaurantPage'] = $hasParentRestaurantPage;
@@ -29,7 +31,7 @@ if ($hasParentRestaurantPage) {
 }
 
 global $parent;
-if ($hasParentRestaurantPage || $post->post_parent) {
+if ($isRestaurantChildPage || $post->post_parent) {
 	$parent = $hasParentRestaurantPage ? $restaurant : $post->post_parent;
 	$context['parent'] = get_post($parent);
 	$context['parent_title'] = get_the_title($parent);
@@ -49,17 +51,20 @@ function getRestaurant($post, $categories) {
 	}
 }
 
-$post_id = $hasParentRestaurantPage ? ($parent && $parent->ID) : $post->ID;
 
+$post_id = $hasParentRestaurantPage ? $parent->ID : $post->ID;
 function getRestaurantMenus($post_id, $post) {
 	$categories = wp_get_post_categories($post_id);
 	$category = count($categories) > 0 ? $categories[0] : null;
 	if ($post->post_name == 'catering') {
 		$category = get_cat_ID('Catering');
-	} // not sure why I need to do this...
+	} else {// not sure why I need to do this...
+		$category = $categories[0];
+	}
 
 	$tasting_category = get_cat_ID('Tasting Menu');
 	if ($category) {
+		
 		return get_posts(array(
 			"category" => $category,
 			"post_type" => "menu",
@@ -77,6 +82,8 @@ function getRestaurantTastingMenus($post_id) {
 		));
 	}
 }
+
+$context['photo_gallery'] = get_field('photo_gallery', $post_id);
 
 // $context['menus'] = get_field('menus', $post_id);
 // $context['tastingmenus'] = get_field('tasting_menus', $post_id);

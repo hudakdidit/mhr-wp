@@ -1,6 +1,7 @@
 import FastClick from 'fastclick';
 import { scrollToY } from './scroll';
 import Tabs from './tabs';
+import Popups from './popups';
 // import Window from './window';
 // import Affix from './affix';
 
@@ -8,11 +9,12 @@ require('classlist-polyfill');
 require('core-js/fn/array/for-each');
 
 export default class App {
-  constructor() {
+  constructor(props) {
     window.$ = jQuery;
     this.touch = false;
     this._initToggles();
     this._initFastClick();
+    Popups.init();
     // Window.init();
 
     // this.affix = new Affix();

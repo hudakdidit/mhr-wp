@@ -2,7 +2,7 @@ export default {
   init() {
     this.images = [].slice.call(document.querySelectorAll('.lightbox-link'));
     if (this.images.length) {
-      this._initLightBox();
+      // this._initLightBox();
     }
   },
 

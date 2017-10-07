@@ -31,4 +31,8 @@ if ($post->post_parent) {
   $context['parent_link'] = get_permalink($post->post_parent);
 }
 
+if ($post->post_name == 'about') {
+	$context['siblings'] = $context['children'];
+}
+
 Timber::render( array( 'page-' . $post->post_name . '.twig', 'page.twig' ), $context );

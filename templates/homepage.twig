@@ -18,18 +18,18 @@
 										<!-- {% if restaurant.post_name == 'young-american-ale-house' %}
 											{{restaurant.post_content}}
 										{% endif %} -->
-										{% if restaurant.post_name == 'catering' %}
-											{{restaurant.post_content}}
-										{% endif %}
 									</div>
 									<div>
 										{% if restaurant.street_address %}
 										<div class="address" itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress">
 											<span itemprop="streetAddress">{{restaurant.street_address}}</span><br>
+											{% if restaurant.post_name != 'catering' %}
 											<span itemprop="addressLocality">{{restaurant.city}}</span>,&nbsp;
 											<span itemprop="addressRegion">{{restaurant.state}}</span>&nbsp;
 											<span itemprop="postalCode">{{restaurant.zipcode}}</span>
-											<a href="{{restaurant.map_link}}">Map</a>
+											
+												<a href="{{restaurant.map_link}}">Map</a>
+											{% endif %}
 										</div>
 										<div class="telephone" itemprop="telephone"><a href="tel:{{restaurant.telephone}}">{{restaurant.telephone}}</a></div>
 										{% endif %}

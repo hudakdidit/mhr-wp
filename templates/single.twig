@@ -77,13 +77,22 @@
 				</div>
 			{% endif %}
 			{% if parent %}
+
 			  <section class="restaurant-page" data-ajax-target="menu">
 					<a href="{{parent_link}}" class="logo logo--{{parent.post_name}} restaurant-page-mobile-logo"><img src="{{TimberImage(parent.logo).src}}" alt="{{parent.title}} Logo" /></a>
 			  	<h1 class="article-h1 heading--{{parent.post_name}}">{{post.title|replace(stringReplace)}}</h1>
 			  	<div>
 			  		{{post.content|raw}}
+						{% if photo_gallery %}
+						<div class="grid popup-gallery">
+						{% for image in photo_gallery %}
+							<a class="grid-item lightbox-link" data-popup="" href="{{ TimberImage(image).src }}"><img src="{{ TimberImage(image.sizes.restaurant_gallery) }}" /></a>
+						{% endfor %}
+						</div>
+					{% endif %}
 			  	</div>
 			  </section>
+
 			{% elseif post.type == 'restaurant' %}
 			  <section class="restaurant-summary">
 			  	<h1 class="article-h1">{{post.title}}</h1>
@@ -97,13 +106,7 @@
 							{{ post.special_events }}
 						</div>
 					{% endif %}
-						{% if post.get_field('photo_gallery') %}
-							<div class="grid">
-						  {% for image in post.get_field('photo_gallery') %}
-    		  			<a class="grid-item lightbox-link" href="{{ TimberImage(image).src }}"><img src="{{ TimberImage(image.sizes.restaurant_gallery) }}" /></a>
-						  {% endfor %}
-							</div>
-						{% endif %}
+					
 
 			  </section>
 			{% else %}
