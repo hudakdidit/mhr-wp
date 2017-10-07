@@ -78,7 +78,6 @@ export default class App {
   }
 
   _toggleMenu() {
-    console.log('toggleMenu called');
     if (this.nav.classList.contains('active')) {
       this._closeMenu();
     } else {

@@ -31,7 +31,7 @@ if ($hasParentRestaurantPage) {
 }
 
 global $parent;
-if ($isRestaurantChildPage || $post->post_parent) {
+if ($hasParentRestaurantPage || $post->post_parent) {
 	$parent = $hasParentRestaurantPage ? $restaurant : $post->post_parent;
 	$context['parent'] = get_post($parent);
 	$context['parent_title'] = get_the_title($parent);

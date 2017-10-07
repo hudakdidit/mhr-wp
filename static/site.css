@@ -1400,10 +1400,6 @@ p a {
   .primary-nav .nav-link.dropdown {
     margin-right: 0;
   }
-  .primary-nav .nav-link.current_page_item > a > span,
-  .primary-nav .nav-link .current-restaurant-ancestor > a > span {
-    font-weight: 700;
-  }
 }
 .scroll-indicator {
   position: absolute;
@@ -1443,9 +1439,6 @@ p a {
 }
 .scroll-indicator.back-to-top:hover {
   background: #fff;
-}
-.single-restaurant .nav-link--restaurants a span {
-  font-weight: 700;
 }
 .relative-page-nav {
   padding: 0 0 1em;
@@ -1500,6 +1493,9 @@ p a {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+.menu-item a.active {
+  font-weight: 700;
 }
 .content-wrapper {
   padding: 20px 20px 60px;
