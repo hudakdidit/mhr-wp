@@ -28,7 +28,9 @@
 					<div class="tabs-group" data-affix>
 						<div class="tabs-header">
 							<a href="#">Info</a>
+							{% if menus|length > 0 %}
 							<a href="#" class="{% if is_menu %}active{% endif %}">Menus</a>
+							{% endif %}
 
 							{% if hasEvents %}
 								<a href="#">Events</a>
@@ -40,7 +42,7 @@
 					    	{% include '_restaurant-info.twig' with { restaurant: restaurantInfo } %}
 					    </div>
 							{% set stringReplace = {'Tilth': '', 'Agrodolce': '', 'Menu': ''} %}
-					    {% if submenu %}
+					    {% if submenu and menus|length > 0 %}
 					    	<div id="restaurant-menus" class="tabs-content {% if is_menu %}active{% endif %}">
 					        <nav class="restaurant-info__container">
 					          {% for menu in menus %}

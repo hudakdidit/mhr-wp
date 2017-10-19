@@ -8,10 +8,12 @@ const getCurrentPath = pathname => {
 }
 export default {
     init() {
-        this.navItems = Array.from(document.querySelectorAll('.primary-nav a')).filter(a => a.getAttribute('href') !== '#');
+        this.navItems = Array.from(document.querySelectorAll('.primary-nav a, #restaurant-menus a')).filter(a => a.getAttribute('href') !== '#');
     },
 
     setActiveNavItem() {
+        this.init();
+        
         //reset
         this.navItems.forEach(item => item.classList.remove(activeClassname));
 

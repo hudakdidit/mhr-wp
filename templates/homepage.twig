@@ -6,7 +6,7 @@
 		<div class="homepage-panels">
     {% for item in restaurants %}
       {% set restaurant = item.restaurant %}
-			<div class="image-panel-wrapper">
+			<div class="image-panel-wrapper {% if restaurant.special_events %} has-special-events{% endif %}">
 				<div class="image-panel image-panel--{{restaurant.post_name}} {% if restaurant.accepts_reservations %} reservations {% endif %}" style="background-image: url({{TimberImage(restaurant.background_image).src}})">
 					<div class="mhr-card mhr-card--restaurant mhr-card--{{restaurant.post_name}}" itemscope="" itemtype="http://schema.org/LocalBusiness">
 						<div class="mhr-card__border">
@@ -22,16 +22,23 @@
 									<div>
 										{% if restaurant.street_address %}
 										<div class="address" itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress">
-											<span itemprop="streetAddress">{{restaurant.street_address}}</span><br>
-											{% if restaurant.post_name != 'catering' %}
-											<span itemprop="addressLocality">{{restaurant.city}}</span>,&nbsp;
-											<span itemprop="addressRegion">{{restaurant.state}}</span>&nbsp;
-											<span itemprop="postalCode">{{restaurant.zipcode}}</span>
-											
-												<a href="{{restaurant.map_link}}">Map</a>
-											{% endif %}
+											<div class="restaurant-info-row">
+												<span itemprop="streetAddress">{{restaurant.street_address}}</span>
+											</div>
+											<div class="restaurant-info-row">
+												{% if restaurant.post_name != 'catering' %}
+												<span itemprop="addressLocality">{{restaurant.city}}</span>,&nbsp;
+												<span itemprop="addressRegion">{{restaurant.state}}</span>&nbsp;
+												<span itemprop="postalCode">{{restaurant.zipcode}}</span>
+												
+													<a href="{{restaurant.map_link}}" target="_blank">Map</a>
+												{% endif %}
+											</div>
 										</div>
 										<div class="telephone" itemprop="telephone"><a href="tel:{{restaurant.telephone}}">{{restaurant.telephone}}</a></div>
+										{% endif %}
+										{% if restaurant.additional_info %}
+											{{restaurant.additional_info|raw}}
 										{% endif %}
 									</div>
 								</div>
