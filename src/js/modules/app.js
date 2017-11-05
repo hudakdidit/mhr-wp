@@ -52,7 +52,8 @@ export default class App {
       (navigator.msMaxTouchPoints > 0);
 
     // Navigation
-    const event = this.touch ? 'touchstart' : 'click';
+    // const event = this.touch ? 'touchstart' : 'click';
+    const event = 'click';
     this.toggleMenu = this._toggleMenu.bind(this);
     this.closeMenu = this._closeMenu.bind(this);
     this.openMenu = this._openMenu.bind(this);

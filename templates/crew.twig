@@ -4,9 +4,8 @@
     <div class="content-wrapper">
       <section class="post-type-page">
         <h1>Crew</h1>
-        {% for item in crew %}
+        {% for person in crew %}
             <div class="Person">
-            {% for person in item %}
                 <div class="Person-portrait">
                     <img src="{{TimberImage(person.portrait).src('medium')}}" alt="Portrait of {{person.post_title}}" />
                 </div>
@@ -15,7 +14,6 @@
                     <h3>{{person.title}}</h3>
                     {{person.post_content|raw}}
                 </div>
-            {% endfor %}
             </div>
         {% endfor %}
       </section>
