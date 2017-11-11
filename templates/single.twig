@@ -85,7 +85,7 @@
 			  	<h1 class="article-h1 heading--{{parent.post_name}}">{{post.title|replace(stringReplace)}}</h1>
 			  	<div>
 			  		{{post.content|raw}}
-						{% if photo_gallery %}
+						{% if photo_gallery and post.post_type == 'restaurant' %}
 						<div class="grid popup-gallery">
 						{% for image in photo_gallery %}
 							<a class="grid-item lightbox-link" data-popup="" href="{{ TimberImage(image).src }}"><img src="{{ TimberImage(image.sizes.restaurant_gallery) }}" /></a>
