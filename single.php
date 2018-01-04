@@ -68,6 +68,7 @@ function getRestaurantMenus($post_id, $post) {
 		return get_posts(array(
 			"category" => $category,
 			"post_type" => "menu",
+			"posts_per_page" => 200,
 			"category__not_in" => array($tasting_category)
 		));
 	}
@@ -78,6 +79,7 @@ function getRestaurantTastingMenus($post_id) {
 	if (count($categories) > 0) {
 		return get_posts(array(
 			"post_type" => "menu",
+			"posts_per_page" => 200,
 			"category__and" => array($categories[0], $tasting_category)
 		));
 	}

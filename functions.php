@@ -13,16 +13,44 @@ Timber::$dirname = array('templates', 'views');
 
 class StarterSite extends TimberSite {
 
+	function change_menus(){
+		
+		remove_menu_page( 'index.php' );                  //Dashboard
+		// remove_menu_page( 'jetpack' );                    //Jetpack* 
+		// remove_menu_page( 'edit.php' );                   //Posts
+		// remove_menu_page( 'upload.php' );                 //Media
+		// remove_menu_page( 'edit.php?post_type=page' );    //Pages
+		remove_menu_page( 'edit-comments.php' );          //Comments
+		// remove_menu_page( 'themes.php' );                 //Appearance
+		// remove_menu_page( 'plugins.php' );                //Plugins
+		// remove_menu_page( 'users.php' );                  //Users
+		// remove_menu_page( 'tools.php' );                  //Tools
+		// remove_menu_page( 'options-general.php' );        //Settings
+		add_menu_page( 'Tilth Menus', 'Tilth Menus', 'edit_posts', 'edit.php?s&post_status=all&post_type=menu&action=-1&m=0&cat=1&filter_action=Filter&paged=1&action2=-1');
+		add_menu_page( 'Agrodolce Menus', 'Agrodolce Menus', 'edit_posts', 'edit.php?s&post_status=all&post_type=menu&action=-1&m=0&cat=70&filter_action=Filter&paged=1&action2=-1');
+		add_menu_page( 'Catering Menus', 'Catering Menus', 'edit_posts', 'edit.php?s&post_status=all&post_type=menu&action=-1&m=0&cat=73&filter_action=Filter&paged=1&action2=-1');
+	}
+
+	/* Redirect the user logging in to a custom admin page. */
+	function new_dashboard_home($username, $user){
+		if(array_key_exists('administrator', $user->caps)){
+				wp_redirect(admin_url('edit.php?post_type=menu'), 301);
+				exit;
+		}
+	}
+
 
 	function __construct() {
 		add_theme_support( 'post-formats' );
 		add_theme_support( 'post-thumbnails' );
 		add_theme_support( 'menus' );
+		add_action('wp_login', array( $this, 'new_dashboard_home'), 10, 2);
 		add_action( 'init', array( $this, 'register_menus' ) );
 		add_action( 'init', array( $this, 'register_options' ) );
 		add_action( 'init', array( $this, 'register_post_types' ) );
 		add_action( 'init', array( $this, 'register_taxonomies' ) );
 		add_action( 'init', array( $this, 'custom_routes' ) );
+		add_action( 'admin_menu', array( $this, 'change_menus') );
 		add_action( 'template_redirect', array( $this, 'redirects' ) );
 
 		add_image_size( 'restaurant_gallery', 800, 600 );
@@ -72,6 +100,7 @@ class StarterSite extends TimberSite {
 		//
 		// }
 
+		
 		
 		// Add category metabox to page
 		register_taxonomy_for_object_type('category', 'page');  
