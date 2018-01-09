@@ -1,0 +1,9 @@
++ *.php
++ style.css
++ static/
++ static/*.css
++ static/*.js
++ static/*.html
++ templates/
++ templates/*.twig
+- *
