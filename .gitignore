@@ -2,3 +2,4 @@ vendor
 wp-content
 build
 node_modules
+scripts

@@ -11,7 +11,9 @@
     "start": "webpack -w",
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "./scripts/buildAndDeploy.sh",
-    "build": "./build.sh"
+    "build": "./build.sh",
+    "sync-uploads": "./scripts/sync-from-remote-uploads",
+    "sync-db": "./scripts/sync-from-remote-db"
   },
   "repository": {
     "type": "git",
@@ -23,8 +25,11 @@
     "url": "https://github.com/timber/starter-theme/issues"
   },
   "homepage": "https://github.com/timber/starter-theme#readme",
-  "dependencies": {
+  "devDependencies": {
     "autoprefixer": "^6.7.7",
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-preset-env": "^1.2.2",
     "browser-sync": "^2.18.8",
     "browser-sync-webpack-plugin": "^1.1.4",
     "classlist-polyfill": "^1.0.3",
@@ -42,11 +47,6 @@
     "stylus": "^0.54.2",
     "stylus-loader": "^2.0.0",
     "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.4.2"
-  },
-  "devDependencies": {
-    "babel-core": "^6.24.0",
-    "babel-loader": "^6.4.1",
-    "babel-preset-env": "^1.2.2"
+    "webpack-dev-server": ">=3.1.11"
   }
 }
