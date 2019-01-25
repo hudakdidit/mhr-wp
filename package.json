@@ -10,10 +10,11 @@
   "scripts": {
     "start": "webpack -w",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "./scripts/buildAndDeploy.sh",
     "build": "./build.sh",
     "sync-uploads": "./scripts/sync-from-remote-uploads",
-    "sync-db": "./scripts/sync-from-remote-db"
+    "sync-db": "./scripts/sync-from-remote-db",
+    "predeploy": "npm run build",
+    "deploy": "./scripts/deploy-theme-to-remote"
   },
   "repository": {
     "type": "git",
