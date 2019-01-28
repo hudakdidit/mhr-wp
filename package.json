@@ -1,6 +1,6 @@
 {
   "name": "mhr",
-  "localUrl": "mhr.test",
+  "localUrl": "mh.test",
   "version": "1.0.0",
   "description": "The \"_s\" for Timber: a dead-simple theme that you can build from. The primary purpose of this theme is to provide a file structure rather than a framework for markup or styles. Configure your Sass, scripts, and task runners however you would like!",
   "main": "index.js",
@@ -31,7 +31,7 @@
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.1",
     "babel-preset-env": "^1.2.2",
-    "browser-sync": "^2.18.8",
+    "browser-sync": "^2.26.3",
     "browser-sync-webpack-plugin": "^1.1.4",
     "classlist-polyfill": "^1.0.3",
     "css-loader": "^0.27.3",
