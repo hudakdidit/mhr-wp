@@ -3,4 +3,3 @@ wp-content
 build
 node_modules
 scripts
-.DS_*
